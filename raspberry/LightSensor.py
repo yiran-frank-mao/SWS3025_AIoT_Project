@@ -1,9 +1,9 @@
 from Sensors import Sensor
 
 class LightSensor(Sensor):
-    def __init__(self, name, light):
+    def __init__(self, name):
         super().__init__(name)
-        self.light = light
 
     def get_value(self):
-        return self.light
+        #TODO: Implement this method
+        raise NotImplementedError

@@ -8,7 +8,6 @@ class TemperatureSensor(Sensor):
         self.pin = GPIO_Pin
 
     def get_value(self) -> (float, float):
-        #TODO: Implement this method
         humidity, temperature = Adafruit_DHT.read_retry(self.sensor_type, self.pin)
         return temperature, humidity
 

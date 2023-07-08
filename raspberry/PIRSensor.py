@@ -18,3 +18,5 @@ def PIRTest():
     pir = PIRSensor("PIR", 12)
     while True:
         print(pir.get_value())
+
+PIRTest()

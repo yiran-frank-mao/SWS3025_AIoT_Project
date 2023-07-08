@@ -17,3 +17,5 @@ class CameraSensor(Sensor):
 def camera_sensor_test():
     camera = CameraSensor("Camera")
     print(camera.get_value())
+
+camera_sensor_test()

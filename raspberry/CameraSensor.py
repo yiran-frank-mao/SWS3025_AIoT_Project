@@ -7,7 +7,6 @@ class CameraSensor(Sensor):
         super().__init__(name)
 
     def get_value(self) -> str:
-        #TODO: Implement this method
         camera = PiCamera()
         filePath = '/home/pi/images'
         fileName = datetime.now().strftime("%Y%m%d%H%M%S") + '.jpg'

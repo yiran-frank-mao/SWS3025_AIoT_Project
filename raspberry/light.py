@@ -16,7 +16,8 @@ def light(I):
 
 #调节到固定亮度
 def adjust(A):
-    if A == 1#待补充
+    #if A == 1
+    #Todo
 
 #关灯
 def off():

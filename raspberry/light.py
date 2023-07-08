@@ -4,9 +4,9 @@ from gpiozero import PWMLED
 #测试
 led = PWMLED(17) 
 led.value = 0.5
-led.on() # test - the led should be lit
+led.on() # test - the LED should be lit
 time.sleep(1)
-led.off() # test - the led should go off
+led.off() # test - the LED should go off
 
 #指定亮度开灯/暗处用/默认亮度/手动调节指定亮度
 def light(I):

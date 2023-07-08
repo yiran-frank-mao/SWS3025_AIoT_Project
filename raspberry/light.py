@@ -9,13 +9,13 @@ time.sleep(1)
 led.off() # test - the led should go off
 
 #指定亮度开灯/暗处用/默认亮度/手动调节指定亮度
-def light(double: I):
+def light(I):
     led = PWMLED(17)
     led.value = I
     led.on()
 
 #调节到固定亮度
-def adjust(int: A):
+def adjust(A):
     if A == 1#待补充
 
 #关灯

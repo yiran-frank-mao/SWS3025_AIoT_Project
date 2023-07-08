@@ -17,4 +17,5 @@ def camera_sensor_test():
     camera = CameraSensor("Camera")
     print(camera.get_value())
 
-camera_sensor_test()
+if __name__ == "__main__":
+    camera_sensor_test()

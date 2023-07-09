@@ -18,7 +18,6 @@ def off():
     led.off()
 
 def test_light():
-    # 测试
     led = PWMLED(17)
     led.value = 0.5
     led.on()  # test - the LED should be lit

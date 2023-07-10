@@ -19,4 +19,5 @@ def PIRTest():
     while True:
         print(pir.get_value())
 
-PIRTest()
+if __name__ == "__main__":
+    PIRTest()

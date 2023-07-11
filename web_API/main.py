@@ -14,13 +14,13 @@ def index():
 def welcome():
     return 'Welcome to smart hub'
 
-@app.route('/api/sensor/temperature')
+@app.route('/api/sensors/temperature')
 def get_temperature():
     return TemperatureSensor().get_value()[0]
 
-@app.route('/api/sensor/humidity')
+@app.route('/api/sensors/humidity')
 def get_humidity():
     return TemperatureSensor().get_value()[1]
 
 if __name__ == '__main__':
-    app.run()
+    app.run(port=8080)

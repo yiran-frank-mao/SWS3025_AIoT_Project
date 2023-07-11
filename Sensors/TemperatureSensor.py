@@ -2,7 +2,7 @@ from Sensors.Sensors import Sensor
 import Adafruit_DHT
 
 class TemperatureSensor(Sensor):
-    def __init__(self, name, GPIO_Pin=17):
+    def __init__(self, name="DHT11", GPIO_Pin=17):
         super().__init__(name)
         self.sensor_type = Adafruit_DHT.DHT11
         self.pin = GPIO_Pin

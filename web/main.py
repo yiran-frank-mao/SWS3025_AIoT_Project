@@ -1,5 +1,6 @@
 from flask import Flask
 from flask import request, session, redirect, url_for
+import
 
 app = Flask(__name__)
 app.secret_key = 'qwerty1234567890'
@@ -7,7 +8,7 @@ app.secret_key = 'qwerty1234567890'
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    strHtml = '<a href="/protected">Protected</a> | <a href="/logout">Logout</a><br/><br/>'
+    strHtml = '<a href="/logout">Logout</a><br/><br/>'
 
     if request.method == 'GET':
 
@@ -30,22 +31,6 @@ def index():
         strHtml += 'Unsupported HTTP Method'
 
     return strHtml
-
-
-@app.route('/protected', methods=['GET'])
-def protected():
-    strHtml = '<a href="/protected">Protected</a> | <a href="/logout">Logout</a><br/><br/>'
-
-    if 'isLogin' in session and session['isLogin'] == True:
-
-        strHtml = strHtml + 'You are login as ' + session['email']
-
-    else:
-
-        strHtml = strHtml + 'You are not login'
-
-    return strHtml
-
 
 @app.route('/logout', methods=['GET'])
 def logout():

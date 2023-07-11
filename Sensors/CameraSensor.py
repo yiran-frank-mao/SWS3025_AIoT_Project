@@ -1,4 +1,4 @@
-from Sensors import Sensor
+from Sensors.Sensors import Sensor
 from picamera import PiCamera
 from time import sleep
 from datetime import datetime

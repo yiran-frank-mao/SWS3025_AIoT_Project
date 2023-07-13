@@ -12,3 +12,12 @@ def get_temperature():
 @app.route('/api/sensors/humidity')
 def get_humidity():
     return str(TemperatureSensor().get_value()[1])
+
+@app.route('/api/light/on')
+def light_on():
+    # TODO
+    raise NotImplementedError
+
+def light_off():
+    # TODO
+    raise NotImplementedError

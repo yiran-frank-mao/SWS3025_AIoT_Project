@@ -3,8 +3,10 @@ from flask import request, session, redirect, url_for
 from flask import send_from_directory
 from flask import render_template
 import random
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
+cors = CORS(app)
 
 @app.route('/')
 def index():

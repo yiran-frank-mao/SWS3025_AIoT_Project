@@ -1,5 +1,4 @@
 import time
-from Sensors import Sensor
 from gpiozero import PWMLED
 from Sensors.LightSensor import LightSensor
 from Sensors.PIRSensor import PIRSensor

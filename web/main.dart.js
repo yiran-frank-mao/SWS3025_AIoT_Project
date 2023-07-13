@@ -82010,7 +82010,7 @@ A.lg.prototype={
 uN(){var s=0,r=A.P(t.H),q=this,p
 var $async$uN=A.Q(function(a,b){if(a===1)return A.M(b,r)
 while(true)switch(s){case 0:s=2
-return A.S(A.aQF(A.fH("http://localhost:8080/api/sensors/"+q.a.toLowerCase())),$async$uN)
+return A.S(A.aQF(A.fH("http://0.0.0.0:8080/api/sensors/"+q.a.toLowerCase())),$async$uN)
 case 2:p=b
 if(p.b===200){q.b.sn(0,A.aB6(A.aQl(A.aNY(p.e).c.a.h(0,"charset")).dS(0,p.w)))
 q.c=!0}else q.c=!1

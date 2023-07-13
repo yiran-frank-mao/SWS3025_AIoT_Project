@@ -1,4 +1,4 @@
-from Sensors import Sensor
+import Sensor
 import Adafruit_DHT
 
 class TemperatureSensor(Sensor):

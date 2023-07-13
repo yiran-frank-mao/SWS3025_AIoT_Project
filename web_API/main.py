@@ -1,14 +1,14 @@
 from flask import Flask
-from flask import request, session, redirect, url_for
-from flask import send_from_directory
 from flask import render_template
 from Sensors.TemperatureSensor import TemperatureSensor
+from flask_cors import CORS
 
 app = Flask(__name__)
+cors = CORS(app)
 
 @app.route('/')
 def index():
-    return render_template('web/index.html')
+    return render_template('/home/pi/web/index.html')
 
 @app.route('/welcome')
 def welcome():

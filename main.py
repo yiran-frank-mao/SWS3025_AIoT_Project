@@ -1,10 +1,5 @@
-from flask import Flask
 from flask import render_template, send_from_directory
-from Sensors.TemperatureSensor import TemperatureSensor
-from flask_cors import CORS
-
-app = Flask(__name__, template_folder='web')
-cors = CORS(app)
+from api import app
 
 @app.route('/')
 def index():
@@ -18,16 +13,6 @@ def return_flutter_doc(name):
         for i in range(0, len(datalist) - 1):
             DIR_NAME += '/' + datalist[i]
     return send_from_directory(DIR_NAME, datalist[-1])
-
-
-@app.route('/api/sensors/temperature')
-def get_temperature():
-    return str(TemperatureSensor().get_value()[0])
-
-
-@app.route('/api/sensors/humidity')
-def get_humidity():
-    return str(TemperatureSensor().get_value()[1])
 
 
 if __name__ == '__main__':

@@ -8,7 +8,7 @@ cors = CORS(app)
 
 @app.route('/')
 def index():
-    return render_template("/web/index.html")
+    return render_template("index.html")
 
 @app.route('/welcome')
 def welcome():

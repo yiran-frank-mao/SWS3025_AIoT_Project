@@ -80685,7 +80685,7 @@ g=p
 l=A.a1(g)
 k=A.ar(g)
 i=A.bi("during a framework-to-plugin message")
-A.cE(new A.bs(l,k,"flutter web plugins",i,null,!1))
+A.cE(new A.bs(l,k,"flutter templates plugins",i,null,!1))
 o.push(5)
 s=4
 break
@@ -86514,7 +86514,7 @@ B.c8=new A.oE(0,"none")
 B.ds=new A.oE(1,"low")
 B.eP=new A.oE(2,"medium")
 B.dt=new A.oE(3,"high")
-B.CF=new A.rL("AIzaSyCk5zIspqSYeYibNkJ5-kN2uGeJtfNJbeY","1:655180009090:web:cb685b948a4cf159a82e9b","655180009090","sws3025-aiot-project","sws3025-aiot-project.firebaseapp.com",null,"sws3025-aiot-project.appspot.com","G-955XWR6L9Y",null,null,null,null,null,null)
+B.CF=new A.rL("AIzaSyCk5zIspqSYeYibNkJ5-kN2uGeJtfNJbeY","1:655180009090:templates:cb685b948a4cf159a82e9b","655180009090","sws3025-aiot-project","sws3025-aiot-project.firebaseapp.com",null,"sws3025-aiot-project.appspot.com","G-955XWR6L9Y",null,null,null,null,null,null)
 B.m=new A.K(0,0)
 B.CG=new A.JC(B.m,B.m)
 B.lw=new A.JF(0,"tight")

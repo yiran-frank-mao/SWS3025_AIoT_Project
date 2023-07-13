@@ -1,5 +1,5 @@
 import time
-import Sensor
+from Sensors import Sensor
 from gpiozero import MCP3008
 from gpiozero import PWMLED
 

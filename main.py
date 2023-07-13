@@ -28,12 +28,12 @@ def welcome():
 
 @app.route('/api/sensors/temperature')
 def get_temperature():
-    return TemperatureSensor().get_value()[0]
+    return str(TemperatureSensor().get_value()[0])
 
 
 @app.route('/api/sensors/humidity')
 def get_humidity():
-    return TemperatureSensor().get_value()[1]
+    return str(TemperatureSensor().get_value()[1])
 
 
 if __name__ == '__main__':

@@ -3,6 +3,7 @@ from gpiozero import PWMLED
 from Sensors.LightSensor import LightSensor
 from Sensors.PIRSensor import PIRSensor
 
+
 class light:
     def __init__(self):
         self.led = PWMLED(21)
@@ -27,7 +28,8 @@ class light:
             while (i < 100):
                 adjust(ideallight)
                 i = i + 1
-    def ledoff(self):
+
+    def led_off(self):
         self.led.off()
 
     def adjust(self, ideallight):
@@ -44,11 +46,12 @@ class light:
             led.value = 0
 
     def dark(self):
-        if PIRSensor.get_value() == 1 and LightSensor.get_value() > 0.8 :
+        if PIRSensor.get_value() == 1 and LightSensor.get_value() > 0.8:
             led.value = 0.4  # 夜灯亮度
             led.on()
             time.sleep(30)
             led.off()
+
 
 if __name__ == '__main__':
     test_light()

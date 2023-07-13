@@ -3,7 +3,7 @@ from flask import render_template
 from Sensors.TemperatureSensor import TemperatureSensor
 from flask_cors import CORS
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='web')
 cors = CORS(app)
 
 @app.route('/')

@@ -36,9 +36,3 @@ def set_light():
     val = float(request.args.get('value'))
     light.set_led(val)
     return "Set LED to " + str(val)
-
-
-@app.route('/api/light/set?=value')
-def set_light():
-    # TODO
-    raise NotImplementedError

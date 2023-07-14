@@ -4,54 +4,55 @@ from Sensors.LightSensor import LightSensor
 from Sensors.PIRSensor import PIRSensor
 
 
-class light:
+class Light:
     def __init__(self):
         self.led = PWMLED(21)
-
-    def ledstate(self, module):  # 每进行一次相机采样模式识别就执行一次
-        if module == 'manual':  # 手动模式
-            led.value = 0.8  # 默认亮度
-            led.on()
-        elif module == 'reading':  # 阅读模式
-            led.value = 0.8  # 默认亮度
-            led.on()
-            ideallight = 0.009
-            i = 0
-            while (i < 100):
-                adjust(ideallight)
-                i = i + 1
-        elif module == 'computer':  # 电脑模式
-            led.value = 0.8  # 默认亮度
-            led.on()
-            ideallight = 0.02
-            i = 0
-            while (i < 100):
-                adjust(ideallight)
-                i = i + 1
 
     def led_off(self):
         self.led.off()
 
+    def led_on(self):
+        self.led.on()
+
+    def ledstate(self, module):  # 每进行一次相机采样模式识别就执行一次
+        if module == 'manual':  # 手动模式
+            self.led.value = 0.8  # 默认亮度
+            self.led.on()
+        elif module == 'reading':  # 阅读模式
+            self.led.value = 0.8  # 默认亮度
+            self.led.on()
+            ideallight = 0.009
+            i = 0
+            while (i < 100):
+                self.adjust(ideallight)
+                i = i + 1
+        elif module == 'computer':  # 电脑模式
+            self.led.value = 0.8  # 默认亮度
+            self.led.on()
+            ideallight = 0.02
+            i = 0
+            while (i < 100):
+                self.adjust(ideallight)
+                i = i + 1
+
+
+
     def adjust(self, ideallight):
         light0 = LightSensor.get_value()
         if light0 > ideallight + 0.001:  # 暗
-            if led.value + 0.001 < 1:
-                led.value = led.value + 0.001
+            if self.led.value + 0.001 < 1:
+                self.led.value = self.led.value + 0.001
             else:
-                led.value = 1
+                self.led.value = 1
         elif light0 < ideallight - 0.001:  # 亮
-            if led.value - 0.001 > 0:
-                led.value = led.value - 0.001
+            if self.led.value - 0.001 > 0:
+                self.led.value = self.led.value - 0.001
         else:
-            led.value = 0
+            self.led.value = 0
 
     def dark(self):
         if PIRSensor.get_value() == 1 and LightSensor.get_value() > 0.8:
-            led.value = 0.4  # 夜灯亮度
-            led.on()
+            self.led.value = 0.4  # 夜灯亮度
+            self.led.on()
             time.sleep(30)
-            led.off()
-
-
-if __name__ == '__main__':
-    test_light()
+            self.led.off()

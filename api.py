@@ -1,5 +1,5 @@
 from flask import Flask, request
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 from Sensors.TemperatureSensor import TemperatureSensor
 from Sensors.CameraSensor import ImageSensor, VideoSensor
 from lightController import Light
@@ -23,18 +23,21 @@ def get_humidity():
 
 
 @app.route('/api/light/on', methods=['POST'])
+@cross_origin()
 def light_on():
     light.led_on()
     return "Set LED on"
 
 
 @app.route('/api/light/off', methods=['POST'])
+@cross_origin()
 def light_off():
     light.led_off()
     return "Set LED off"
 
 
 @app.route('/api/light/set', methods=['POST'])
+@cross_origin()
 def set_light():
     val = int(request.args.get('value'))
     light.set_led(val/100)
@@ -42,6 +45,7 @@ def set_light():
 
 
 @app.route('/api/light/get')
+@cross_origin()
 def get_light():
     return str(int(light.get_led()*100))
 

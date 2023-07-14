@@ -33,8 +33,10 @@ class VideoSensor(Sensor):
 
 
 def camera_sensor_test():
-    camera = ImageSensor("Camera")
-    print(camera.get_value())
+    camera = PiCamera()
+    camera.start_preview()
+    while True:
+        sleep(1)
 
 if __name__ == "__main__":
     camera_sensor_test()

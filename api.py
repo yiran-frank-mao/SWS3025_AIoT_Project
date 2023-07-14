@@ -36,14 +36,14 @@ def light_off():
 
 @app.route('/api/light/set', methods=['POST'])
 def set_light():
-    val = float(request.args.get('value'))
-    light.set_led(val)
+    val = int(request.args.get('value'))
+    light.set_led(val/100)
     return "Set LED to " + str(val)
 
 
 @app.route('/api/light/get')
-def set_light():
-    return str(light.get_led())
+def get_light():
+    return str(int(light.get_led()*100))
 
 
 @app.route('/api/camera/capture_photo')

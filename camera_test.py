@@ -18,8 +18,7 @@ while cap.isOpened():
     ret, img = cap.read()  # 视频读入
     if not ret: continue
     time_text = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    cv2.putText(img, time_text, (word_x, word_y),
-                cv2.FONT_HERSHEY_SIMPLEX, 1, (55, 255, 155), 2)
+    cv2.putText(img, time_text, (word_x, word_y), cv2.FONT_HERSHEY_SIMPLEX, 1, (55, 255, 155), 2)
     cv2.imshow('show', img)
     key = cv2.waitKey(30) & 0xFF
     if key == ord("q"):

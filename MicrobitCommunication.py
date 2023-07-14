@@ -1,7 +1,7 @@
 #树莓派串口输出module----microbit显示
 #microbit按按钮----树莓派接受某一字符串----关灯/开灯
 from lightController import Light
-import serial
+from microbit import serial
 import time
 
 

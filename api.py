@@ -31,7 +31,8 @@ def light_off():
     return "Set LED off"
 
 
-@app.route('/api/light/set?=<value>')
-def set_light(value):
-    light.set_led(float(value))
-    return "Set LED to " + value
+@app.route('/api/light/set')
+def set_light():
+    val = float(request.args.get('value'))
+    light.set_led(val)
+    return "Set LED to " + str(val)

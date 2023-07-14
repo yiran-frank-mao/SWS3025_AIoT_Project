@@ -14,6 +14,9 @@ class Light:
     def led_on(self):
         self.led.on()
 
+    def set_led(self, value):
+        self.led.value = value
+
     def ledstate(self, module):  # 每进行一次相机采样模式识别就执行一次
         if module == 'manual':  # 手动模式
             self.led.value = 0.8  # 默认亮度

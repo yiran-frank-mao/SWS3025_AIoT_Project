@@ -36,11 +36,14 @@ def light_off():
 
 @app.route('/api/light/set', methods=['POST'])
 def set_light():
-    # http://raspberrypi4.local:8080/api/light/set?value=0.5
-    print(request.args.get('value'))
     val = float(request.args.get('value'))
     light.set_led(val)
     return "Set LED to " + str(val)
+
+
+@app.route('/api/light/get')
+def set_light():
+    return str(light.get_led())
 
 
 @app.route('/api/camera/capture_photo')

@@ -14,6 +14,9 @@ class Light:
     def led_on(self):
         self.led.on()
 
+    def get_led(self):
+        return self.led.value
+
     def set_led(self, value):
         self.led.value = value
 

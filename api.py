@@ -45,7 +45,6 @@ def set_light():
 
 
 @app.route('/api/light/get')
-@cross_origin()
 def get_light():
     return str(int(light.get_led()*100))
 

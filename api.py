@@ -21,3 +21,8 @@ def light_on():
 def light_off():
     # TODO
     raise NotImplementedError
+
+@app.route('/api/light/set?=value')
+def set_light():
+    # TODO
+    raise NotImplementedError

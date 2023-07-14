@@ -1,8 +1,11 @@
 import cv2
 import datetime
 
+count = 0
 # 获取摄像头视频
 cap = cv2.VideoCapture(0)
+cap.set(3, 640)  # 设置分辨率
+cap.set(4, 480)
 # 获取视频宽度
 frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
 # 获取视频高度
@@ -11,14 +14,19 @@ frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 word_x = int(frame_width / 10)
 word_y = int(frame_height / 10)
 
-while (cap.isOpened()):
-    ret, frame = cap.read()
+while cap.isOpened():
+    ret, img = cap.read()  # 视频读入
+    if not ret: continue
     time_text = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    cv2.putText(frame, time_text, (word_x, word_y),
-                cv2.FONT_HERSHEY_SIMPLEX, 1, (55, 255, 155), 2)
-    cv2.imshow("real_time", frame)
-    if cv2.waitKey(1) & 0xFF == ord('q'):  # 等待按键q按下
+    cv2.putText(img, time_text, (word_x, word_y), cv2.FONT_HERSHEY_SIMPLEX, 1, (55, 255, 155), 2)
+    cv2.imshow('show', img)
+    key = cv2.waitKey(30) & 0xFF
+    if key == ord("q"):
         break
+    elif key == ord("s"):
+        count = count + 1
+        cv2.imwrite("./testback" + str(count) + ".jpg", img)
+        print("save success!  count =", count)
 
 cap.release()
 cv2.destroyAllWindows()

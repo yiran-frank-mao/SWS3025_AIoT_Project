@@ -1,7 +1,20 @@
 import requests
 
-url = 'http://raspberrypi4.local:8080/api/light/on'
+from LightController import LightController
+from Sensors.CameraSensor import ImageSensor, VideoSensor
+from Sensors.LightSensor import LightSensor
+from Sensors.PIRSensor import PIRSensor
+from Sensors.TemperatureSensor import TemperatureSensor
 
-x = requests.post(url)
 
-print(x.text)
+def lightControllerTest():
+    pir = PIRSensor()
+    lightSensor = LightSensor()
+    lightController = LightController(lightSensor, pir)
+    lightController.led_on()
+    lightController.set_led(0.2)
+    lightController.adjustTo(0.8)
+    
+
+if __name__ == '__main__':
+    lightControllerTest()

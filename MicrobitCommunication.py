@@ -8,14 +8,13 @@ import time
 class MicCom:
 	def __init__(self):
 		ser = serial.Serial(port='/dev/ttyACM0', baudrate=115200, timeout=1)
+		a = LightController()
 		while True:
 			msg = ser.readline()
 			smsg = msg.decode('utf-8').strip()
 
 			if len(smsg) > 0:
-
 				print('RX:{}'.format(smsg))
-				a = LightController()
 				print(a.get_led())
 				if a.get_led() == 0: a.led_on()
 				else: a.led_off()

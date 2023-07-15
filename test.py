@@ -13,7 +13,7 @@ def lightControllerTest():
     lightController = LightController(lightSensor, pir)
     lightController.led_on()
     lightController.set_led(0.2)
-    lightController.adjustTo(1)
+    lightController.adjustTo(0.8)
     input("Press Enter to continue...")
 
 

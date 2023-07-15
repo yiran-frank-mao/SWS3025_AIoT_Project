@@ -22,7 +22,7 @@ def testMicrobit():
 
 def PIRtest():
     lightSensor = LightSensor()
-    print.lightSensor.get_value()
+    print(lightSensor.get_value())
     if lightSensor.get_value() == 0:
         lightSensor.dark()
 

@@ -30,12 +30,11 @@ def PIRTest():
     lightSensor = LightSensor()
     lightController = LightController(lightSensor, pir)
     # lightController.adjustTo(0.8)
-    time.sleep(0.1)
+    time.sleep(1)
     print(pir.get_value())
     lightController.led_on()
-    lightController.set_led(1)
     print("led", lightController.get_led())
-    time.sleep(30)
+    time.sleep(1)
     lightController.led_off()
 
 

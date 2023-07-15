@@ -34,8 +34,6 @@ def PIRTest():
     print(pir.get_value())
     lightController.led_on()
     print("led", lightController.get_led())
-    time.sleep(1)
-    lightController.led_off()
 
 
 

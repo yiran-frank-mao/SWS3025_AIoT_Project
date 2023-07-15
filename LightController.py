@@ -23,11 +23,11 @@ class LightController:
         self.invAdjustFunc = invAdjustFunc
         self.adjustDuration = adjustDuration
         self.adjustTotalSteps = adjustTotalSteps
-        self.led_on()
-        input("Press Enter to continue...")
         while True:
             if self.PIRSensor.get_value() == 1 and self.get_led() == 0:
+                print(self.get_led())
                 self.led_on()
+                print(self.get_led())
                 time.sleep(10)
                 self.led_off()
 

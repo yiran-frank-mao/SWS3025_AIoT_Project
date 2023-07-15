@@ -8,6 +8,7 @@ class ImageSensor(Sensor):
         super().__init__(name)
 
     def get_value(self) -> str:
+        # Returns the file path of the image
         camera = PiCamera()
         filePath = '/home/pi/images'
         fileName = datetime.now().strftime("%Y%m%d%H%M%S") + '.jpg'
@@ -20,6 +21,7 @@ class VideoSensor(Sensor):
         self.duration = duration
 
     def get_value(self) -> str:
+        # Returns the file path of the video
         camera = PiCamera()
         filePath = '/home/pi/videos'
         fileName = datetime.now().strftime("%Y%m%d%H%M%S") + '.h264'
@@ -38,5 +40,3 @@ def camera_sensor_test():
     while True:
         sleep(1)
 
-if __name__ == "__main__":
-    camera_sensor_test()

@@ -1,8 +1,9 @@
 from Sensors.Sensors import Sensor
 import RPi.GPIO as GPIO
 
+
 class PIRSensor(Sensor):
-    def __init__(self, name, pirSensorPin):
+    def __init__(self, name="PIR", pirSensorPin=12):
         super().__init__(name)
         self.pin = pirSensorPin
 
@@ -14,10 +15,8 @@ class PIRSensor(Sensor):
         GPIO.cleanup()
         return rtn
 
+
 def PIRTest():
     pir = PIRSensor("PIR", 12)
     while True:
         print(pir.get_value())
-
-if __name__ == "__main__":
-    PIRTest()

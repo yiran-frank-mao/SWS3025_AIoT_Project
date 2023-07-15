@@ -86,7 +86,7 @@ class LightController:
             if self.PIRSensor.get_value() == 1:
                 print("led", self.get_led())
                 self.led_on()
-                self.set_led(1)
+                self.set_led(0.8)
                 print("led", self.get_led())
                 time.sleep(30)
                 self.led_off()

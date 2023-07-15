@@ -81,8 +81,8 @@ class LightController:
     def dark(self):
         PIR = PIRSensor()
         while True:
-            if self.PIR.get_value() == 1 and self.lightSensor.get_value() > 0.8:
-                self.led.value = 0.4  # 夜灯亮度
-                self.led.on()
+            if self.PIR.get_value() == 1:# and self.lightSensor.get_value() > 0.8:
+                self.set_led(0.4)   # 夜灯亮度
+                self.led_on()
                 time.sleep(30)
-                self.led.off()
+                self.led_off()

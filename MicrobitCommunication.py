@@ -9,9 +9,10 @@ class MicCom:
 	def __init__(self):
 		ser = serial.Serial(port='/dev/ttyACM0', baudrate=115200, timeout=1)
 		while True:
-			com_input = ser.read(10)
+			com_input = ser.read()
 			if com_input:  # 如果读取结果非空，则输出
-				if LightController.get_led() == 0: LightController.led_on()
+				a = LightController()
+				if a.get_led() == 0: a.led_on()
 				else: LightController.led_off()
 	def send(self,module):
 		response = module + '\r\n'

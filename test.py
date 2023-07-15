@@ -29,13 +29,11 @@ def PIRTest():
     pir = PIRSensor()
     lightSensor = LightSensor()
     lightController = LightController(lightSensor, pir)
-    while True:
-        if lightController.PIRSensor.get_value() == 1:
-            testMicrobit()
+    lightController.dark()
 
 
 
 if __name__ == '__main__':
-   lightControllerTest()
+   #lightControllerTest()
     # testMicrobit()
-    # PIRTest()
+    PIRTest()

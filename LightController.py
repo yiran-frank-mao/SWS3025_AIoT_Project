@@ -23,13 +23,7 @@ class LightController:
         self.invAdjustFunc = invAdjustFunc
         self.adjustDuration = adjustDuration
         self.adjustTotalSteps = adjustTotalSteps
-        while True:
-            if self.PIRSensor.get_value() == 1 and self.get_led() == 0:
-                print(self.get_led())
-                self.led_on()
-                print(self.get_led())
-                time.sleep(10)
-                self.led_off()
+
 
     def led_off(self):
         self.led.off()
@@ -86,14 +80,10 @@ class LightController:
         #     self.led.value = 0
 
     def dark(self):
-
         while True:
-            time.sleep(0.1)
-            print(self.PIRSensor.get_value())
-            if self.PIRSensor.get_value() == 1:
-                print("led", self.get_led())
+            if self.PIRSensor.get_value() == 1 and self.get_led() == 0:
+                print(self.get_led())
                 self.led_on()
-                self.set_led(0.8)
-                print("led", self.get_led())
-                time.sleep(30)
+                print(self.get_led())
+                time.sleep(10)
                 self.led_off()

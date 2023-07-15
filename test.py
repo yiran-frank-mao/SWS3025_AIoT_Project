@@ -32,7 +32,7 @@ def PIRTest():
     while True:
         time.sleep(0.1)
         print(pir.get_value())
-        if self.PIRSensor.get_value() == 1:
+        if pir.get_value() == 1:
             print("led", lightController.get_led())
             lightController.led_on()
             lightController.set_led(0.8)

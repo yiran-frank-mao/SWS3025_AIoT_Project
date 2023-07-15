@@ -10,7 +10,7 @@ from Sensors.TemperatureSensor import TemperatureSensor
 def lightControllerTest():
     pir = PIRSensor()
     lightSensor = LightSensor()
-    lightController = LightController(lightSensor, pir)
+    lightController = LightController(lightSensor, pir, adjustDuration=1)
     lightController.led_on()
     lightController.set_led(0.2)
     lightController.adjustTo(0.8)

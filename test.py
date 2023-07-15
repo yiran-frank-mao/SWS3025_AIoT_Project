@@ -30,8 +30,12 @@ def PIRTest():
     light = LightController()
     while True:
         print(pir.get_value())
-        if light.get_led() == 0:
-            light.dark()
+        if pir.get_value() == 1:
+            light.set_led(0.4)
+            light.led_on()
+            time.sleep(30)
+            light.led_off()
+
 
 
 if __name__ == '__main__':

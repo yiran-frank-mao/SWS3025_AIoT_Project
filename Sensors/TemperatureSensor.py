@@ -1,6 +1,7 @@
 from Sensors.Sensors import Sensor
 import Adafruit_DHT
 
+
 class TemperatureSensor(Sensor):
     def __init__(self, name="DHT11", GPIO_Pin=17):
         super().__init__(name)
@@ -8,8 +9,10 @@ class TemperatureSensor(Sensor):
         self.pin = GPIO_Pin
 
     def get_value(self) -> (float, float):
+        # Returns a tuple of (temperature, humidity)
         humidity, temperature = Adafruit_DHT.read_retry(self.sensor_type, self.pin)
         return temperature, humidity
+
 
 def TemperatureSensor_test():
     sensor = TemperatureSensor("DHT11")

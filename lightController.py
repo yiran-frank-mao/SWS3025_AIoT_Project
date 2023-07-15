@@ -41,14 +41,15 @@ class Light:
                 self.adjust(ideallight)
                 i = i + 1
 
-    def adjust(self, ideallight):
-        light0 = LightSensor.get_value()
-        if light0 > ideallight + 0.001:  # 暗
+    def adjust(self, ideaLight):
+        lightSensor = LightSensor()
+        lightIntensity = lightSensor.get_value()
+        if lightIntensity > ideaLight + 0.001:  # 暗
             if self.led.value + 0.001 < 1:
                 self.led.value = self.led.value + 0.001
             else:
                 self.led.value = 1
-        elif light0 < ideallight - 0.001:  # 亮
+        elif lightIntensity < ideaLight - 0.001:  # 亮
             if self.led.value - 0.001 > 0:
                 self.led.value = self.led.value - 0.001
         else:

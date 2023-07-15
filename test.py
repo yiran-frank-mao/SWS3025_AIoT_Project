@@ -33,7 +33,7 @@ def PIRTest():
         if lightController.PIRSensor.get_value() == 1:
             lightController.led_on()
             lightController.set_led(1)
-            print(lightController.lightSensor.get_value())
+            print(lightController.get_led())
             input("Press Enter to continue...")
 
 

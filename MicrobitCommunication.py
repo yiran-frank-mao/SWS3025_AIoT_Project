@@ -16,7 +16,7 @@ class MicCom:
 
 				print('RX:{}'.format(smsg))
 				a = LightController()
-				print(a.get_led)
+				print(a.get_led())
 				if a.get_led() == 0: a.led_on()
 				else: a.led_off()
 	def send(self,module):

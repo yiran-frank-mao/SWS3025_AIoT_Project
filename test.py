@@ -26,7 +26,7 @@ def PIRtest():
     if light.get_led() == 0:
         light.dark()
 def PIRTest():
-    pir = PIRSensor("PIR", 12)
+    pir = PIRSensor()
     light = LightController()
     while True:
         print(pir.get_value())

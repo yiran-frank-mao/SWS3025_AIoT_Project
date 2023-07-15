@@ -29,6 +29,11 @@ def PIRTest():
     pir = PIRSensor()
     lightSensor = LightSensor()
     lightController = LightController(lightSensor, pir)
+    lightController.led_on()
+    lightController.set_led(1)
+    # lightController.adjustTo(0.8)
+    print(lightController.lightSensor.get_value())
+    input("Press Enter to continue...")
     while True:
         time.sleep(0.1)
         print(pir.get_value())

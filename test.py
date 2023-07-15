@@ -31,9 +31,7 @@ def PIRTest():
     lightController = LightController(lightSensor, pir)
     while True:
         if lightController.PIRSensor.get_value() == 1:
-            lightController.led_on()
-            print(lightController.get_led())
-            input("Press Enter to continue...")
+            testMicrobit()
 
 
 

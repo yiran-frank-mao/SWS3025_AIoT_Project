@@ -5,7 +5,7 @@ from Sensors.CameraSensor import ImageSensor, VideoSensor
 from Sensors.LightSensor import LightSensor
 from Sensors.PIRSensor import PIRSensor
 from Sensors.TemperatureSensor import TemperatureSensor
-
+from MicrobitCommunication import MicCom
 
 def lightControllerTest():
     pir = PIRSensor()
@@ -17,6 +17,8 @@ def lightControllerTest():
     print(lightController.lightSensor.get_value())
     input("Press Enter to continue...")
 
+def testMicrobit():
+    micro = MicCom()
 
 if __name__ == '__main__':
     lightControllerTest()

@@ -30,7 +30,6 @@ def PIRTest():
     lightSensor = LightSensor()
     lightController = LightController(lightSensor, pir)
     # lightController.adjustTo(0.8)
-    time.sleep(1)
     print(lightController.PIRSensor.get_value())
     lightController.led_on()
     print("led", lightController.get_led())
@@ -40,6 +39,6 @@ def PIRTest():
 
 
 if __name__ == '__main__':
-   lightControllerTest()
+   #lightControllerTest()
     # testMicrobit()
-    #PIRTest()
+    PIRTest()

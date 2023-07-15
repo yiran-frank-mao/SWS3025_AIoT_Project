@@ -15,7 +15,7 @@ def invSigmoid(x) -> float:
 class LightController:
     def __init__(self, lightSensor: LightSensor = LightSensor("lightSensor"),
                  pirSensor: PIRSensor = PIRSensor("PIRSensor"), adjustFunc=sigmoid,
-                 invAdjustFunc=invSigmoid, adjustDuration=0.5, adjustTotalSteps=10):
+                 invAdjustFunc=invSigmoid, adjustDuration=0.5, adjustTotalSteps=15):
         self.led = PWMLED(21)
         self.lightSensor = lightSensor
         self.PIRSensor = pirSensor

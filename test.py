@@ -10,10 +10,11 @@ from Sensors.TemperatureSensor import TemperatureSensor
 def lightControllerTest():
     pir = PIRSensor()
     lightSensor = LightSensor()
-    lightController = LightController(lightSensor, pir, adjustDuration=1)
+    lightController = LightController(lightSensor, pir)
     lightController.led_on()
     lightController.set_led(0.2)
     lightController.adjustTo(0.8)
+    print(lightController.lightSensor.get_value())
     input("Press Enter to continue...")
 
 

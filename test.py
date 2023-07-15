@@ -34,6 +34,7 @@ def PIRTest():
     print(pir.get_value())
     lightController.led_on()
     print("led", lightController.get_led())
+    input("Press Enter to continue...")
 
 
 

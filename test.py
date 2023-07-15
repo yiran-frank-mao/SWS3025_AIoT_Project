@@ -20,6 +20,12 @@ def lightControllerTest():
 def testMicrobit():
     micro = MicCom()
 
+def PIRtest():
+    lightSensor = LightSensor()
+    if lightSensor.get_value() == 0:
+        lightSensor.dark()
+
 if __name__ == '__main__':
-    lightControllerTest()
-    testMicrobit()
+    # lightControllerTest()
+    # testMicrobit()
+    PIRtest()

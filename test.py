@@ -34,16 +34,15 @@ def PIRTest():
     # lightController.adjustTo(0.8)
     print(lightController.lightSensor.get_value())
     input("Press Enter to continue...")
-    while True:
-        time.sleep(0.1)
-        print(pir.get_value())
+    time.sleep(0.1)
+    print(pir.get_value())
 
-        lightController.led_on()
-        lightController.set_led(0.8)
-        print("led", lightController.get_led())
-        time.sleep(30)
-        lightController.led_off()
     lightController.led_on()
+    lightController.set_led(0.8)
+    print("led", lightController.get_led())
+    time.sleep(30)
+    lightController.led_off()
+
 
 
 

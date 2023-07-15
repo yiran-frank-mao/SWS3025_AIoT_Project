@@ -43,6 +43,6 @@ def PIRTest():
 
 
 if __name__ == '__main__':
-    # lightControllerTest()
+    lightControllerTest()
     # testMicrobit()
     PIRTest()

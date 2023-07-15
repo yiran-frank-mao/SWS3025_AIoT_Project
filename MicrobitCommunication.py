@@ -9,8 +9,12 @@ class MicCom:
 	def __init__(self):
 		ser = serial.Serial(port='/dev/ttyACM0', baudrate=115200, timeout=1)
 		while True:
-			com_input = ser.read()
-			if com_input:  # 如果读取结果非空，则输出
+			msg = ser.readline()
+			smsg = msg.decode('utf-8').strip()
+
+			if len(smsg) > 0:
+
+				print('RX:{}'.format(smsg))
 				a = LightController()
 				if a.get_led() == 0: a.led_on()
 				else: LightController.led_off()

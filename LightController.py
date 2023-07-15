@@ -2,11 +2,20 @@ import time
 from gpiozero import PWMLED
 from Sensors.LightSensor import LightSensor
 from Sensors.PIRSensor import PIRSensor
+import numpy as np
 
 
-class Light:
-    def __init__(self):
+def sigmoid(x) -> float:
+    return 1 / (1 + np.exp(-x))
+
+
+class LightController:
+    def __init__(self, lightSensor: LightSensor = LightSensor("lightSensor"),
+                 pirSensor: PIRSensor = PIRSensor("PIRSensor"), adjustFunc=sigmoid):
         self.led = PWMLED(21)
+        self.lightSensor = lightSensor
+        self.PIRSensor = pirSensor
+        self.adjustFunc = adjustFunc
 
     def led_off(self):
         self.led.off()
@@ -30,7 +39,7 @@ class Light:
             ideallight = 0.009
             i = 0
             while (i < 100):
-                self.adjust(ideallight)
+                self.adjustTo(ideallight)
                 i = i + 1
         elif module == 'computer':  # 电脑模式
             self.led.value = 0.8  # 默认亮度
@@ -38,12 +47,11 @@ class Light:
             ideallight = 0.02
             i = 0
             while (i < 100):
-                self.adjust(ideallight)
+                self.adjustTo(ideallight)
                 i = i + 1
 
-    def adjust(self, ideaLight):
-        lightSensor = LightSensor()
-        lightIntensity = lightSensor.get_value()
+    def adjustTo(self, ideaLight):
+        lightIntensity = self.lightSensor.get_value()
         if lightIntensity > ideaLight + 0.001:  # 暗
             if self.led.value + 0.001 < 1:
                 self.led.value = self.led.value + 0.001
@@ -56,7 +64,7 @@ class Light:
             self.led.value = 0
 
     def dark(self):
-        if PIRSensor.get_value() == 1 and LightSensor.get_value() > 0.8:
+        if self.PIRSensor.get_value() == 1 and self.lightSensor.get_value() > 0.8:
             self.led.value = 0.4  # 夜灯亮度
             self.led.on()
             time.sleep(30)

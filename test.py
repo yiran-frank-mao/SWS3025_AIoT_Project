@@ -8,6 +8,7 @@ from Sensors.TemperatureSensor import TemperatureSensor
 from MicrobitCommunication import MicCom
 
 def lightControllerTest():
+    pir = PIRSensor()
     lightSensor = LightSensor()
     lightController = LightController(lightSensor, pir)
     lightController.led_on()
@@ -19,19 +20,20 @@ def lightControllerTest():
 def testMicrobit():
     micro = MicCom()
 
-def PIRtest():
-    light = LightController()
-    print(light.get_led())
-    if light.get_led() == 0:
-        light.dark()
+# def PIRtest():
+#     light = LightController()
+#     print(light.get_led())
+#     if light.get_led() == 0:
+#         light.dark()
 def PIRTest():
     pir = PIRSensor()
-
+    lightSensor = LightSensor()
+    lightController = LightController(lightSensor, pir)
     while True:
         time.sleep(0.1)
         print(pir.get_value())
         if pir.get_value() == 1:
-            lightControllerTest()
+            lightController.led_on()
             time.sleep(30)
             light.led_off()
 

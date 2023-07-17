@@ -1,5 +1,7 @@
 import time
 from gpiozero import PWMLED
+
+import Mode
 from Sensors.LightSensor import LightSensor
 from Sensors.PIRSensor import PIRSensor
 import numpy as np
@@ -24,6 +26,7 @@ class LightController:
         self.invAdjustFunc = invAdjustFunc
         self.adjustDuration = adjustDuration
         self.adjustTotalSteps = adjustTotalSteps
+        self.mode = Mode.ManualMode()
 
     def led_off(self):
         self.led.off()
@@ -61,26 +64,15 @@ class LightController:
 
     def adjustTo(self, targetBrightness):
         currentBrightness = self.get_led()
-        startX = self.invAdjustFunc(currentBrightness)
-        endX = self.invAdjustFunc(targetBrightness)
-        step = (endX - startX) / self.adjustTotalSteps
-        for i in range(self.adjustTotalSteps):
-            self.set_led(self.adjustFunc(startX + step * i))
-            time.sleep(self.adjustDuration / self.adjustTotalSteps)
-        # lightIntensity = self.lightSensor.get_value()
-        # if lightIntensity > ideaLight + 0.001:  # 暗
-        #     if self.led.value + 0.001 < 1:
-        #         self.led.value = self.led.value + 0.001
-        #     else:
-        #         self.led.value = 1
-        # elif lightIntensity < ideaLight - 0.001:  # 亮
-        #     if self.led.value - 0.001 > 0:
-        #         self.led.value = self.led.value - 0.001
-        # else:
-        #     self.led.value = 0
+        if currentBrightness != targetBrightness:
+            startX = self.invAdjustFunc(currentBrightness)
+            endX = self.invAdjustFunc(targetBrightness)
+            step = (endX - startX) / self.adjustTotalSteps
+            for i in range(self.adjustTotalSteps):
+                self.set_led(self.adjustFunc(startX + step * i))
+                time.sleep(self.adjustDuration / self.adjustTotalSteps)
 
     def targetBrightness(self, mode: str) -> float:
-        # TODO
         currentBrightness = self.get_led()
         currentLightIntensity = self.lightSensor.get_value()
         if mode == 'reading':
@@ -102,6 +94,9 @@ class LightController:
                 return currentBrightness
             elif currentLightIntensity > 0.7:
                 return currentBrightness + 0.5 * (currentLightIntensity - targetLI2)
+
+        elif mode == 'night':
+            return 0.2
 
     def night_light_mode(self):
         if self.PIRSensor.get_value():

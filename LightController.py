@@ -84,4 +84,3 @@ class LightController:
             print(self.get_led())
             self.led_on()
             print(self.get_led())
-            self.led_off()

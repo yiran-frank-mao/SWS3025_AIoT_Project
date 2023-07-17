@@ -69,21 +69,23 @@ class LightController:
         currentBrightness = self.get_led()
         print('currentBrightness =',currentBrightness)
         currentLightIntensity = self.lightSensor.get_value()
-        print('currentLightI =', currentLightIntensity)
+        print('currentLight =', currentLightIntensity)
         brightness = 0
         if mode == 'reading':
             targetLI1 = 0.25
+            difference =  currentLightIntensity - targetLI1
+            print('difference =',difference)
             if currentLightIntensity < 0:
                 print('There is no need for the light.')
                 brightness = 0
             elif currentLightIntensity < 0.2 and currentLightIntensity>=0:
-                brightness = currentBrightness-0.2*(targetLI1 - currentLightIntensity)
+                brightness = currentBrightness+0.2*difference
             elif currentLightIntensity <= 0.3 and currentLightIntensity >= 0.2 :
                 brightness = currentBrightness
             elif currentLightIntensity >0.3 and currentLightIntensity <0.5:
-                brightness = currentBrightness+0.5*(currentLightIntensity - targetLI1)
-            elif currentLightIntensity >=0.5:
-                brightness = currentBrightness+0.7*(currentLightIntensity - targetLI1)
+                brightness = currentBrightness+0.5*difference
+            elif currentLightIntensity >=0.5 and currentLightIntensity <=1:
+                brightness = currentBrightness+0.7*difference
 
 
         elif mode == 'computer':

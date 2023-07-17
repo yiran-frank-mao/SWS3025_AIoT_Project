@@ -5,18 +5,10 @@ from Sensors.PIRSensor import PIRSensor
 import numpy as np
 
 
-def sigmoid(x) -> float:
-    return 1 / (1 + np.exp(-x))
-
-
-def invSigmoid(x) -> float:
-    return np.log(x / (1 - x))
-
-
 class LightController:
     def __init__(self, lightSensor: LightSensor = LightSensor("lightSensor"),
-                 pirSensor: PIRSensor = PIRSensor("PIRSensor"), adjustFunc=sigmoid,
-                 invAdjustFunc=invSigmoid, adjustDuration=0.5, adjustTotalSteps=15):
+                 pirSensor: PIRSensor = PIRSensor("PIRSensor"), adjustFunc=np.sin,
+                 invAdjustFunc=np.arcsin, adjustDuration=0.5, adjustTotalSteps=15):
         self.led = PWMLED(21)
         self.lightSensor = lightSensor
         self.PIRSensor = pirSensor

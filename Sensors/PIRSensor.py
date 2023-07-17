@@ -6,13 +6,12 @@ class PIRSensor(Sensor):
     def __init__(self, name="PIR", pirSensorPin=12):
         super().__init__(name)
         self.pin = pirSensorPin
+        GPIO.setmode(GPIO.BCM)
 
     def get_value(self) -> bool:
         # Returns true if motion is detected, false otherwise
-        GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.pin, GPIO.IN)
         rtn = GPIO.input(self.pin)
-        GPIO.cleanup()
         return rtn
 
 

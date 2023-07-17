@@ -8,7 +8,7 @@ import numpy as np
 class LightController:
     def __init__(self, lightSensor: LightSensor = LightSensor("lightSensor"),
                  pirSensor: PIRSensor = PIRSensor("PIRSensor"), adjustFunc=np.sin,
-                 invAdjustFunc=np.arcsin, adjustDuration=0.5, adjustTotalSteps=15):
+                 invAdjustFunc=np.arcsin, adjustDuration=0.5, adjustTotalSteps=15, mode="night"):
         self.led = PWMLED(21)
         self.lightSensor = lightSensor
         self.PIRSensor = pirSensor
@@ -16,6 +16,7 @@ class LightController:
         self.invAdjustFunc = invAdjustFunc
         self.adjustDuration = adjustDuration
         self.adjustTotalSteps = adjustTotalSteps
+        self.mode = mode
 
     def led_off(self):
         self.led.off()
@@ -30,25 +31,8 @@ class LightController:
     def set_led(self, value):
         self.led.value = value
 
-    def set_state(self, mode):
-        if mode == 'manual':  # 手动模式
-            self.led.value = 0.8  # 默认亮度
-            self.led.on()
-        elif mode == 'reading':  # 阅读模式
-            # self.led.value = 0.8  # 默认亮度
-            # self.led.on()
-            targetBrightness = self.targetBrightness(mode)
-            print('targetbright =', targetBrightness)
-            self.adjustTo(targetBrightness)
-
-        elif mode == 'computer':  # 电脑模式
-            self.led.value = 0.8  # 默认亮度
-            self.led.on()
-            targetBrightness = 0.02
-            i = 0
-            while (i < 100):
-                self.adjustTo(targetBrightness)
-                i = i + 1
+    def set_mode(self, mode):
+        self.mode = mode
 
     def adjustTo(self, targetBrightness):
         currentBrightness = self.get_led()
@@ -83,7 +67,6 @@ class LightController:
             elif 0.5 <= currentLightIntensity <= 1:
                 brightness = currentBrightness + 0.7 * difference
 
-
         elif mode == 'computer':
             targetLI2 = 0.65
             if currentLightIntensity < 0.6:
@@ -102,12 +85,18 @@ class LightController:
             print('There is no need for the light.')
             return 0
 
-    def night_light_mode(self):
-        if self.PIRSensor.get_value():
-            self.set_led(0.2)
-            time.sleep(10)
-
     def start(self):
         while True:
-            self.night_light_mode()
+            if self.mode == 'night':
+                if self.PIRSensor.get_value():
+                    self.set_led(0.2)
+                    time.sleep(10)
+            elif self.mode == 'manual':
+                pass
+            elif self.mode == 'reading':
+                targetBrightness = self.targetBrightness(self.mode)
+                self.adjustTo(targetBrightness)
+            elif self.mode == 'computer':
+                targetBrightness = self.targetBrightness(self.mode)
+                self.adjustTo(targetBrightness)
             time.sleep(1)

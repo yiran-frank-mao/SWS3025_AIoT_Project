@@ -96,13 +96,13 @@ class LightController:
 
 
         elif mode == 'computer':
-            targetLI2 = 0.35
-            if currentLightIntensity < 0.3:
+            targetLI2 = 0.65
+            if currentLightIntensity < 0.6:
                 return currentBrightness - 0.5*(targetLI2 - currentLightIntensity)
-            elif currentLightIntensity >=0.3 and currentLightIntensity <= 0.4:
+            elif currentLightIntensity >=0.6 and currentLightIntensity <= 0.7:
                 return currentBrightness
-            elif currentLightIntensity > 0.4 :
-                return currentBrightness + 0.7*(currentLightIntensity-targetLI2)
+            elif currentLightIntensity > 0.7 :
+                return currentBrightness + 0.5*(currentLightIntensity-targetLI2)
 
 
     def night_light_mode(self):

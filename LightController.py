@@ -45,7 +45,7 @@ class LightController:
         elif mode == 'reading':  # 阅读模式
             self.led.value = 0.8  # 默认亮度
             self.led.on()
-            targetBrightness = 0.009
+            targetBrightness = self.targetBrightness(mode)
             i = 0
             while (i < 100):
                 self.adjustTo(targetBrightness)
@@ -79,9 +79,32 @@ class LightController:
         # else:
         #     self.led.value = 0
 
-    def targetBrightness(self, mode: str, currentLightIntensity: float) -> float:
+    def targetBrightness(self, mode: str) -> float:
         # TODO
-        raise NotImplementedError
+        currentBrightness = self.get_led()
+        currentLightIntensity = self.lightSensor.get_value()
+        if mode == 'reading':
+            targetLI1 = 0.15
+            if currentLightIntensity < 0.1:
+                return currentBrightness-0.5*(targetLI1 - currentLightIntensity)
+            elif currentLightIntensity <= 0.2 and currentLightIntensity >= 0.1 :
+                return currentBrightness
+            elif currentLightIntensity >0.2 and currentLightIntensity <0.4:
+                return currentBrightness+0.5*(currentLightIntensity - targetLI1)
+            elif currentLightIntensity >=0.4:
+                return currentBrightness+0.7*(currentLightIntensity - targetLI1)
+
+
+        elif mode == 'computer':
+            targetLI2 = 0.35
+            if currentLightIntensity < 0.3:
+                return currentBrightness - 0.5*(targetLI2 - currentLightIntensity)
+            elif currentLightIntensity >=0.3 and currentLightIntensity <= 0.4:
+                return currentBrightness
+            elif currentLightIntensity > 0.4 :
+                return currentBrightness + 0.7*(currentLightIntensity-targetLI2)
+
+    raise NotImplementedError
 
     def night_light_mode(self):
         if self.PIRSensor.get_value():

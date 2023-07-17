@@ -40,7 +40,8 @@ class LightController:
         elif mode == 'reading':  # 阅读模式
             #self.led.value = 0.8  # 默认亮度
             #self.led.on()
-            targetBrightness = self.targetBrightness(mode)
+            #targetBrightness = self.targetBrightness(mode)
+            targetBrightness = 0.25
             print('targetbright =',targetBrightness)
             #i = 0
             #while (i < 100):

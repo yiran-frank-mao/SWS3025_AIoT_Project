@@ -7,6 +7,7 @@ from Sensors.PIRSensor import PIRSensor
 from Sensors.TemperatureSensor import TemperatureSensor
 from MicrobitCommunication import MicCom
 
+
 def lightControllerTest():
     pir = PIRSensor()
     lightSensor = LightSensor()
@@ -17,8 +18,10 @@ def lightControllerTest():
     print(lightController.lightSensor.get_value())
     input("Press Enter to continue...")
 
+
 def testMicrobit():
     micro = MicCom()
+
 
 def PIRTest():
     pir = PIRSensor()
@@ -28,6 +31,14 @@ def PIRTest():
     input("Press Enter to continue...")
 
 
-
 if __name__ == '__main__':
-    PIRTest()
+    pir = PIRSensor()
+    lightSensor = LightSensor()
+    lightController = LightController(lightSensor, pir)
+    lightController.dark()
+    while True:
+        if pir.get_value():
+            lightController.led_on()
+        else:
+            lightController.led_off()
+        time.sleep(0.1)

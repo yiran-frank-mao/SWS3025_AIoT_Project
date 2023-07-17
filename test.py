@@ -37,7 +37,9 @@ if __name__ == '__main__':
     lightController = LightController(lightSensor, pir)
     lightController.dark()
     while True:
-        if pir.get_value():
+        b = pir.get_value()
+        print(b)
+        if b:
             lightController.led_on()
         else:
             lightController.led_off()

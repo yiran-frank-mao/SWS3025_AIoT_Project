@@ -104,7 +104,6 @@ class LightController:
             elif currentLightIntensity > 0.4 :
                 return currentBrightness + 0.7*(currentLightIntensity-targetLI2)
 
-    raise NotImplementedError
 
     def night_light_mode(self):
         if self.PIRSensor.get_value():

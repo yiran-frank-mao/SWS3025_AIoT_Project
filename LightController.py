@@ -8,8 +8,9 @@ import numpy as np
 def sigmoid(x) -> float:
     return 1 / (1 + np.exp(-x))
 
+
 def invSigmoid(x) -> float:
-    return np.log(x/(1-x))
+    return np.log(x / (1 - x))
 
 
 class LightController:
@@ -24,7 +25,6 @@ class LightController:
         self.adjustDuration = adjustDuration
         self.adjustTotalSteps = adjustTotalSteps
 
-
     def led_off(self):
         self.led.off()
 
@@ -38,25 +38,25 @@ class LightController:
     def set_led(self, value):
         self.led.value = value
 
-    def ledstate(self, module):  # 每进行一次相机采样模式识别就执行一次
-        if module == 'manual':  # 手动模式
+    def set_state(self, mode):
+        if mode == 'manual':  # 手动模式
             self.led.value = 0.8  # 默认亮度
             self.led.on()
-        elif module == 'reading':  # 阅读模式
+        elif mode == 'reading':  # 阅读模式
             self.led.value = 0.8  # 默认亮度
             self.led.on()
-            ideallight = 0.009
+            targetBrightness = 0.009
             i = 0
             while (i < 100):
-                self.adjustTo(ideallight)
+                self.adjustTo(targetBrightness)
                 i = i + 1
-        elif module == 'computer':  # 电脑模式
+        elif mode == 'computer':  # 电脑模式
             self.led.value = 0.8  # 默认亮度
             self.led.on()
-            ideallight = 0.02
+            targetBrightness = 0.02
             i = 0
             while (i < 100):
-                self.adjustTo(ideallight)
+                self.adjustTo(targetBrightness)
                 i = i + 1
 
     def adjustTo(self, targetBrightness):

@@ -20,11 +20,6 @@ def lightControllerTest():
 def testMicrobit():
     micro = MicCom()
 
-# def PIRtest():
-#     light = LightController()
-#     print(light.get_led())
-#     if light.get_led() == 0:
-#         light.dark()
 def PIRTest():
     pir = PIRSensor()
     lightSensor = LightSensor()

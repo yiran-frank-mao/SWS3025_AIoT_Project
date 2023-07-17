@@ -46,6 +46,7 @@ class LightController:
             #self.led.value = 0.8  # 默认亮度
             #self.led.on()
             targetBrightness = self.targetBrightness(mode)
+            print('targetbright =',targetBrightness)
             #i = 0
             #while (i < 100):
             self.adjustTo(targetBrightness)
@@ -83,7 +84,9 @@ class LightController:
     def targetBrightness(self, mode: str) -> float:
         # TODO
         currentBrightness = self.get_led()
+        print('currentBrightness =',currentBrightness)
         currentLightIntensity = self.lightSensor.get_value()
+        print('currentLightI =', currentLightIntensity)
         brightness = 0
         if mode == 'reading':
             targetLI1 = 0.25

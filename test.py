@@ -1,11 +1,11 @@
-#import requests
+import requests
 import time
 from LightController import LightController
-#from Sensors.CameraSensor import ImageSensor, VideoSensor
-#from Sensors.LightSensor import LightSensor
-#from Sensors.PIRSensor import PIRSensor
-#from Sensors.TemperatureSensor import TemperatureSensor
-#from MicrobitCommunication import MicCom
+from Sensors.CameraSensor import ImageSensor, VideoSensor
+from Sensors.LightSensor import LightSensor
+from Sensors.PIRSensor import PIRSensor
+from Sensors.TemperatureSensor import TemperatureSensor
+from MicrobitCommunication import MicCom
 
 
 

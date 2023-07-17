@@ -37,8 +37,8 @@ class LightController:
         elif mode == 'reading':  # 阅读模式
             #self.led.value = 0.8  # 默认亮度
             #self.led.on()
-            #targetBrightness = self.targetBrightness(mode)
-            targetBrightness = 0.25
+            targetBrightness = self.TargetBrightness(mode)
+            #targetBrightness = 0.25
             print('targetbright =',targetBrightness)
             #i = 0
             #while (i < 100):
@@ -57,34 +57,33 @@ class LightController:
         currentBrightness = self.get_led()
         if currentBrightness != targetBrightness:
             startX = self.invAdjustFunc(currentBrightness)
-            print('currentBrightness =',currentBrightness)
             endX = self.invAdjustFunc(targetBrightness)
             step = (endX - startX) / self.adjustTotalSteps
             for i in range(self.adjustTotalSteps):
                 self.set_led(self.adjustFunc(startX + step * i))
                 time.sleep(self.adjustDuration / self.adjustTotalSteps)
 
-    def targetBrightness(self, mode: str) -> float:
+    def TargetBrightness(self, mode: str) -> float:
         currentBrightness = self.get_led()
         print('currentBrightness =',currentBrightness)
         currentLightIntensity = self.lightSensor.get_value()
         print('currentLight =', currentLightIntensity)
-        brightness = 0
+        tgbrightness = 0
         if mode == 'reading':
             targetLI1 = 0.25
             difference =  currentLightIntensity - targetLI1
             print('difference =',difference)
             if currentLightIntensity < 0:
                 print('There is no need for the light.')
-                brightness = 0
+                tgbrightness = 0
             elif currentLightIntensity < 0.2 and currentLightIntensity>=0:
-                brightness = currentBrightness+0.2*difference
+                tgbrightness = currentBrightness+0.2*difference
             elif currentLightIntensity <= 0.3 and currentLightIntensity >= 0.2 :
-                brightness = currentBrightness
+                tgbrightness = currentBrightness
             elif currentLightIntensity >0.3 and currentLightIntensity <0.5:
-                brightness = currentBrightness+0.5*difference
+                tgbrightness = currentBrightness+0.5*difference
             elif currentLightIntensity >=0.5 and currentLightIntensity <=1:
-                brightness = currentBrightness+0.7*difference
+                tgbrightness = currentBrightness+0.7*difference
 
 
         elif mode == 'computer':
@@ -99,9 +98,13 @@ class LightController:
         elif mode == 'night':
             return 0.2
 
-        if brightness>=0 and brightness<=1:
-            return brightness
-        else:
+        if tgbrightness > 1:
+            print('Environment is too dark!')
+            return 1
+        elif tgbrightness>=0 and tgbrightness<=1:
+            return tgbrightness
+
+        elif tgbrightness <0:
             print('There is no need for the light.')
             return 0
 

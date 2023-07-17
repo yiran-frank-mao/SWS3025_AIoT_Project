@@ -1,7 +1,5 @@
 import time
 from gpiozero import PWMLED
-
-import Mode
 from Sensors.LightSensor import LightSensor
 from Sensors.PIRSensor import PIRSensor
 import numpy as np
@@ -18,7 +16,6 @@ class LightController:
         self.invAdjustFunc = invAdjustFunc
         self.adjustDuration = adjustDuration
         self.adjustTotalSteps = adjustTotalSteps
-        self.mode = Mode.ManualMode()
 
     def led_off(self):
         self.led.off()

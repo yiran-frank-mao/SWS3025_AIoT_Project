@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from LightController import LightController
 
 
 class Mode(ABC):

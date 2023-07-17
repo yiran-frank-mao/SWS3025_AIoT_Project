@@ -41,4 +41,3 @@ if __name__ == '__main__':
             lightController.led_on()
         else:
             lightController.led_off()
-        time.sleep(0.1)

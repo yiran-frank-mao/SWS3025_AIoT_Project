@@ -37,7 +37,7 @@ class LightController:
         elif mode == 'reading':  # 阅读模式
             self.led.value = 0.8  # 默认亮度
             self.led.on()
-            targetBrightness = 0.009
+            targetBrightness = 0.9
             i = 0
             while (i < 100):
                 self.adjustTo(targetBrightness)
@@ -45,7 +45,7 @@ class LightController:
         elif mode == 'computer':  # 电脑模式
             self.led.value = 0.8  # 默认亮度
             self.led.on()
-            targetBrightness = 0.02
+            targetBrightness = 0.5
             i = 0
             while (i < 100):
                 self.adjustTo(targetBrightness)

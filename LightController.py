@@ -80,10 +80,8 @@ class LightController:
         #     self.led.value = 0
 
     def dark(self):
-        while True:
-            if self.PIRSensor.get_value() == 1 and self.get_led() == 0:
-                print(self.get_led())
-                self.led_on()
-                print(self.get_led())
-                time.sleep(10)
-                self.led_off()
+        if self.PIRSensor.get_value() == 1 and self.get_led() == 0:
+            print(self.get_led())
+            self.led_on()
+            print(self.get_led())
+            self.led_off()

@@ -7,18 +7,10 @@ from Sensors.PIRSensor import PIRSensor
 import numpy as np
 
 
-def sigmoid(x) -> float:
-    return 1 / (1 + np.exp(-x))
-
-
-def invSigmoid(x) -> float:
-    return np.log(x / (1 - x))
-
-
 class LightController:
     def __init__(self, lightSensor: LightSensor = LightSensor("lightSensor"),
-                 pirSensor: PIRSensor = PIRSensor("PIRSensor"), adjustFunc=sigmoid,
-                 invAdjustFunc=invSigmoid, adjustDuration=0.5, adjustTotalSteps=15):
+                 pirSensor: PIRSensor = PIRSensor("PIRSensor"), adjustFunc=np.sin,
+                 invAdjustFunc=np.arcsin, adjustDuration=0.5, adjustTotalSteps=15):
         self.led = PWMLED(21)
         self.lightSensor = lightSensor
         self.PIRSensor = pirSensor
@@ -46,13 +38,14 @@ class LightController:
             self.led.value = 0.8  # 默认亮度
             self.led.on()
         elif mode == 'reading':  # 阅读模式
-            self.led.value = 0.8  # 默认亮度
-            self.led.on()
+            #self.led.value = 0.8  # 默认亮度
+            #self.led.on()
             targetBrightness = self.targetBrightness(mode)
-            i = 0
-            while (i < 100):
-                self.adjustTo(targetBrightness)
-                i = i + 1
+            print('targetbright =',targetBrightness)
+            #i = 0
+            #while (i < 100):
+            self.adjustTo(targetBrightness)
+                #i = i + 1
         elif mode == 'computer':  # 电脑模式
             self.led.value = 0.8  # 默认亮度
             self.led.on()
@@ -74,29 +67,44 @@ class LightController:
 
     def targetBrightness(self, mode: str) -> float:
         currentBrightness = self.get_led()
+        print('currentBrightness =',currentBrightness)
         currentLightIntensity = self.lightSensor.get_value()
+        print('currentLightI =', currentLightIntensity)
+        brightness = 0
         if mode == 'reading':
-            targetLI1 = 0.15
-            if currentLightIntensity < 0.1:
-                return currentBrightness - 0.5 * (targetLI1 - currentLightIntensity)
-            elif 0.2 >= currentLightIntensity >= 0.1:
-                return currentBrightness
-            elif 0.2 < currentLightIntensity < 0.4:
-                return currentBrightness + 0.5 * (currentLightIntensity - targetLI1)
-            elif currentLightIntensity >= 0.4:
-                return currentBrightness + 0.7 * (currentLightIntensity - targetLI1)
+            targetLI1 = 0.25
+            if currentLightIntensity < 0:
+                print('There is no need for the light.')
+                brightness = 0
+            elif currentLightIntensity < 0.2 and currentLightIntensity>=0:
+                brightness = currentBrightness-0.2*(targetLI1 - currentLightIntensity)
+            elif currentLightIntensity <= 0.3 and currentLightIntensity >= 0.2 :
+                brightness = currentBrightness
+            elif currentLightIntensity >0.3 and currentLightIntensity <0.5:
+                brightness = currentBrightness+0.5*(currentLightIntensity - targetLI1)
+            elif currentLightIntensity >=0.5:
+                brightness = currentBrightness+0.7*(currentLightIntensity - targetLI1)
+
 
         elif mode == 'computer':
             targetLI2 = 0.65
             if currentLightIntensity < 0.6:
-                return currentBrightness - 0.5 * (targetLI2 - currentLightIntensity)
-            elif 0.6 <= currentLightIntensity <= 0.7:
-                return currentBrightness
-            elif currentLightIntensity > 0.7:
-                return currentBrightness + 0.5 * (currentLightIntensity - targetLI2)
+                brightness = currentBrightness - 0.5*(targetLI2 - currentLightIntensity)
+            elif currentLightIntensity >=0.6 and currentLightIntensity <= 0.7:
+                brightness = currentBrightness
+            elif currentLightIntensity > 0.7 :
+                brightness = currentBrightness + 0.5*(currentLightIntensity-targetLI2)
 
         elif mode == 'night':
             return 0.2
+
+        if brightness>=0 and brightness<=1:
+            return brightness
+        else:
+            print('There is no need for the light.')
+            return 0
+
+
 
     def night_light_mode(self):
         if self.PIRSensor.get_value():

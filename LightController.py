@@ -79,7 +79,16 @@ class LightController:
         # else:
         #     self.led.value = 0
 
-    def dark(self):
-        print(self.get_led())
-        self.led_on()
-        print(self.get_led())
+    def targetBrightness(self, mode: str, currentLightIntensity: float) -> float:
+        # TODO
+        raise NotImplementedError
+
+    def night_light_mode(self):
+        if self.PIRSensor.get_value():
+            self.set_led(0.2)
+            time.sleep(10)
+
+    def start(self):
+        while True:
+            self.night_light_mode()
+            time.sleep(1)

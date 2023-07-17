@@ -27,7 +27,7 @@ def PIRTest():
     pir = PIRSensor()
     lightSensor = LightSensor()
     lightController = LightController(lightSensor, pir)
-    lightController.dark()
+    lightController.night_light()
     input("Press Enter to continue...")
 
 
@@ -35,7 +35,7 @@ if __name__ == '__main__':
     pir = PIRSensor()
     lightSensor = LightSensor()
     lightController = LightController(lightSensor, pir)
-    lightController.dark()
+    lightController.night_light()
     while True:
         b = pir.get_value()
         print(b)

@@ -8,7 +8,7 @@ import numpy as np
 class LightController:
     def __init__(self, lightSensor: LightSensor = LightSensor("lightSensor"),
                  pirSensor: PIRSensor = PIRSensor("PIRSensor"), adjustFunc=np.sin,
-                 invAdjustFunc=np.arcsin, adjustDuration=0.5, adjustTotalSteps=15):
+                 invAdjustFunc=np.arcsin, adjustDuration=0.5, adjustTotalSteps=15, mode="night"):
         self.led = PWMLED(21)
         self.lightSensor = lightSensor
         self.PIRSensor = pirSensor
@@ -16,6 +16,7 @@ class LightController:
         self.invAdjustFunc = invAdjustFunc
         self.adjustDuration = adjustDuration
         self.adjustTotalSteps = adjustTotalSteps
+        self.mode = mode
 
     def led_off(self):
         self.led.off()
@@ -52,11 +53,14 @@ class LightController:
             while (i < 100):
                 self.adjustTo(targetBrightness)
                 i = i + 1
+    def set_mode(self, mode):
+        self.mode = mode
 
     def adjustTo(self, targetBrightness):
         currentBrightness = self.get_led()
         if currentBrightness != targetBrightness:
             startX = self.invAdjustFunc(currentBrightness)
+            print('currentBrightness =',currentBrightness)
             endX = self.invAdjustFunc(targetBrightness)
             step = (endX - startX) / self.adjustTotalSteps
             for i in range(self.adjustTotalSteps):
@@ -65,14 +69,14 @@ class LightController:
 
     def TargetBrightness(self, mode: str) -> float:
         currentBrightness = self.get_led()
-        print('currentBrightness =',currentBrightness)
+        print('currentBrightness =', currentBrightness)
         currentLightIntensity = self.lightSensor.get_value()
         print('currentLight =', currentLightIntensity)
         tgbrightness = 0
         if mode == 'reading':
             targetLI1 = 0.25
-            difference =  currentLightIntensity - targetLI1
-            print('difference =',difference)
+            difference = currentLightIntensity - targetLI1
+            print('difference =', difference)
             if currentLightIntensity < 0:
                 print('There is no need for the light.')
                 tgbrightness = 0
@@ -89,11 +93,11 @@ class LightController:
         elif mode == 'computer':
             targetLI2 = 0.65
             if currentLightIntensity < 0.6:
-                brightness = currentBrightness - 0.5*(targetLI2 - currentLightIntensity)
-            elif currentLightIntensity >=0.6 and currentLightIntensity <= 0.7:
+                brightness = currentBrightness - 0.5 * (targetLI2 - currentLightIntensity)
+            elif currentLightIntensity >= 0.6 and currentLightIntensity <= 0.7:
                 brightness = currentBrightness
-            elif currentLightIntensity > 0.7 :
-                brightness = currentBrightness + 0.5*(currentLightIntensity-targetLI2)
+            elif currentLightIntensity > 0.7:
+                brightness = currentBrightness + 0.5 * (currentLightIntensity - targetLI2)
 
         elif mode == 'night':
             return 0.2
@@ -108,14 +112,18 @@ class LightController:
             print('There is no need for the light.')
             return 0
 
-
-
-    def night_light_mode(self):
-        if self.PIRSensor.get_value():
-            self.set_led(0.2)
-            time.sleep(10)
-
     def start(self):
         while True:
-            self.night_light_mode()
+            if self.mode == 'night':
+                if self.PIRSensor.get_value():
+                    self.set_led(0.2)
+                    time.sleep(10)
+            elif self.mode == 'manual':
+                pass
+            elif self.mode == 'reading':
+                targetBrightness = self.targetBrightness(self.mode)
+                self.adjustTo(targetBrightness)
+            elif self.mode == 'computer':
+                targetBrightness = self.targetBrightness(self.mode)
+                self.adjustTo(targetBrightness)
             time.sleep(1)

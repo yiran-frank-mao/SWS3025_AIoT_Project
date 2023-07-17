@@ -86,24 +86,22 @@ class LightController:
         if mode == 'reading':
             targetLI1 = 0.15
             if currentLightIntensity < 0.1:
-                return currentBrightness-0.5*(targetLI1 - currentLightIntensity)
-            elif currentLightIntensity <= 0.2 and currentLightIntensity >= 0.1 :
+                return currentBrightness - 0.5 * (targetLI1 - currentLightIntensity)
+            elif 0.2 >= currentLightIntensity >= 0.1:
                 return currentBrightness
-            elif currentLightIntensity >0.2 and currentLightIntensity <0.4:
-                return currentBrightness+0.5*(currentLightIntensity - targetLI1)
-            elif currentLightIntensity >=0.4:
-                return currentBrightness+0.7*(currentLightIntensity - targetLI1)
-
+            elif 0.2 < currentLightIntensity < 0.4:
+                return currentBrightness + 0.5 * (currentLightIntensity - targetLI1)
+            elif currentLightIntensity >= 0.4:
+                return currentBrightness + 0.7 * (currentLightIntensity - targetLI1)
 
         elif mode == 'computer':
             targetLI2 = 0.65
             if currentLightIntensity < 0.6:
-                return currentBrightness - 0.5*(targetLI2 - currentLightIntensity)
-            elif currentLightIntensity >=0.6 and currentLightIntensity <= 0.7:
+                return currentBrightness - 0.5 * (targetLI2 - currentLightIntensity)
+            elif 0.6 <= currentLightIntensity <= 0.7:
                 return currentBrightness
-            elif currentLightIntensity > 0.7 :
-                return currentBrightness + 0.5*(currentLightIntensity-targetLI2)
-
+            elif currentLightIntensity > 0.7:
+                return currentBrightness + 0.5 * (currentLightIntensity - targetLI2)
 
     def night_light_mode(self):
         if self.PIRSensor.get_value():

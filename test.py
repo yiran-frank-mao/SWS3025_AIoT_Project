@@ -15,5 +15,6 @@ if __name__ == '__main__':
     i = 0
 
     for i in range(10):
+        print('i =',i)
         lightController.set_state(mode)
         time.sleep(2)

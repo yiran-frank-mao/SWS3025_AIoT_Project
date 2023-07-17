@@ -25,6 +25,7 @@ def PIRTest():
     lightSensor = LightSensor()
     lightController = LightController(lightSensor, pir)
     lightController.dark()
+    input("Press Enter to continue...")
 
 
 

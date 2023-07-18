@@ -1,3 +1,4 @@
+from Alarm import Alarm
 from ModeDetector import ModeDetector
 from Sensors.LightSensor import LightSensor
 from Sensors.PIRSensor import PIRSensor
@@ -13,6 +14,7 @@ video_sensor = VideoSensor("Video")
 temperature_sensor = TemperatureSensor()
 pir = PIRSensor()
 # buzz = Buzz()
+alarm = Alarm()
 lightSensor = LightSensor()
 modeDetector = ModeDetector()
 lightController = LightController(lightSensor, pir, image_sensor, modeDetector)
@@ -68,6 +70,21 @@ def set_light():
 @app.route('/api/light/get')
 def get_light():
     return str(int(lightController.get_led() * 100))
+
+
+@app.route('/api/alarm/get')
+def get_alarm():
+    return "{"+"hour: {}, minute: {}, second: {}".\
+        format(alarm.alarmTime.hour, alarm.alarmTime.minute, alarm.alarmTime.second)+"}"
+
+
+@app.route('/api/alarm/set', methods=['POST'])
+def set_alarm():
+    hour = int(request.args.get('hour'))
+    minute = int(request.args.get('minute'))
+    second = int(request.args.get('second'))
+    alarm.set_alarm(hour, minute, second)
+    return "Set alarm to " + str(hour) + ":" + str(minute) + ":" + str(second)
 
 
 @app.route('/api/camera/capture_photo')

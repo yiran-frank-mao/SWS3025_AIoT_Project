@@ -136,6 +136,8 @@ class LightController:
         timer_mode = threading.Timer(30, self.mode_thread)
         timer_mode.start()
 
+
+
     def start(self):
         timer_capture = threading.Timer(20, self.capture_thread)
         timer_detect = threading.Timer(30, self.detect_thread)

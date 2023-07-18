@@ -4,15 +4,20 @@ from datetime import time
 class Alarm:
 
     def __init__(self):
+        self.open = False
         self.alarmTime = time(0, 0, 0)
 
     def set_alarm(self, hour, minute, second):
-        if not self.is_set:
-            self.is_set = True
-            print(f"Alarm set for {seconds} seconds.")
-            time.sleep(seconds)
-            print("ALARM!")
+        self.open = True
+        self.alarmTime = time(hour, minute, second)
+        print("Alarm set at " + str(self.alarmTime))
 
-    def reset_alarm(self):
-        self.is_set = False
-        print("Alarm reset.")
+    def clear(self):
+        self.alarmTime = time(0, 0, 0)
+        self.open = False
+
+
+if __name__ == '__main__':
+    alarm = Alarm()
+    alarm.set_alarm(12, 0, 0)
+    print("{"+"hour: {}, minute: {}, second: {}".format(alarm.alarmTime.hour, alarm.alarmTime.minute, alarm.alarmTime.second)+"}")

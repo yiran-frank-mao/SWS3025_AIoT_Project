@@ -151,6 +151,7 @@ class Controller:
                 self.alarm.alarmTime.hour == time_now.hour and \
                 self.alarm.alarmTime.minute == time_now.minute:
             self.buzzer.beep(2)
+            self.alarm.clear()
         timer_alarm = threading.Timer(60, self.alarm_thread)
         timer_alarm.start()
 

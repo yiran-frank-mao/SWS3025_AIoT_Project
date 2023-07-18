@@ -16,6 +16,9 @@ class Alarm:
         self.alarmTime = time(0, 0, 0)
         self.activated = False
 
+    def activate(self):
+        self.activated = True
+
 
 if __name__ == '__main__':
     alarm = Alarm()

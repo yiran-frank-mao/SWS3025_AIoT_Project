@@ -84,6 +84,7 @@ def set_alarm():
     minute = int(request.args.get('minute'))
     second = int(request.args.get('second'))
     alarm.set_alarm(hour, minute, second)
+    alarm.activate()
     return "Set alarm to " + str(hour) + ":" + str(minute) + ":" + str(second)
 
 

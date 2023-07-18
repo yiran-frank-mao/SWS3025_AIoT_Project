@@ -2,13 +2,15 @@ import time
 from gpiozero import PWMLED
 from Sensors.LightSensor import LightSensor
 from Sensors.PIRSensor import PIRSensor
+from ModeDetector import ModeDetector
 import numpy as np
 
 
 class LightController:
-    def __init__(self, lightSensor: LightSensor = LightSensor("lightSensor"),
-                 pirSensor: PIRSensor = PIRSensor("PIRSensor"), adjustFunc=np.sin,
-                 invAdjustFunc=np.arcsin, adjustDuration=0.5, adjustTotalSteps=15, mode="night"):
+    def __init__(self, lightSensor: LightSensor, pirSensor: PIRSensor, modeDetector: ModeDetector,
+                 adjustFunc=np.sin, invAdjustFunc=np.arcsin, adjustDuration=0.5, adjustTotalSteps=15,
+                 mode="night",
+                 ):
         self.led = PWMLED(21)
         self.lightSensor = lightSensor
         self.PIRSensor = pirSensor
@@ -17,6 +19,8 @@ class LightController:
         self.adjustDuration = adjustDuration
         self.adjustTotalSteps = adjustTotalSteps
         self.mode = mode
+        self.state = 'auto'
+        self.modeDetector = modeDetector
 
     def led_off(self):
         self.led.off()
@@ -31,28 +35,6 @@ class LightController:
     def set_led(self, value):
         self.led.value = value
 
-    def set_state(self, mode):
-        if mode == 'manual':  # 手动模式
-            self.led.value = 0.8  # 默认亮度
-            self.led.on()
-        elif mode == 'reading':  # 阅读模式
-            #self.led.value = 0.8  # 默认亮度
-            #self.led.on()
-            targetBrightness = self.TargetBrightness(mode)
-            #targetBrightness = 0.25
-            print('targetbright =',targetBrightness)
-            #i = 0
-            #while (i < 100):
-            self.adjustTo(targetBrightness)
-                #i = i + 1
-        elif mode == 'computer':  # 电脑模式
-            self.led.value = 0.8  # 默认亮度
-            self.led.on()
-            targetBrightness = 0.02
-            i = 0
-            while (i < 100):
-                self.adjustTo(targetBrightness)
-                i = i + 1
     def set_mode(self, mode):
         self.mode = mode
 
@@ -60,14 +42,14 @@ class LightController:
         currentBrightness = self.get_led()
         if currentBrightness != targetBrightness:
             startX = self.invAdjustFunc(currentBrightness)
-            print('currentBrightness =',currentBrightness)
+            print('currentBrightness =', currentBrightness)
             endX = self.invAdjustFunc(targetBrightness)
             step = (endX - startX) / self.adjustTotalSteps
             for i in range(self.adjustTotalSteps):
                 self.set_led(self.adjustFunc(startX + step * i))
                 time.sleep(self.adjustDuration / self.adjustTotalSteps)
 
-    def TargetBrightness(self, mode: str) -> float:
+    def targetBrightness(self, mode: str) -> float:
         currentBrightness = self.get_led()
         print('currentBrightness =', currentBrightness)
         currentLightIntensity = self.lightSensor.get_value()
@@ -80,46 +62,58 @@ class LightController:
             if currentLightIntensity < 0:
                 print('There is no need for the light.')
                 brightness = 0
-            elif currentLightIntensity < 0.2 and currentLightIntensity>=0:
-                brightness = currentBrightness+0.2*difference
-            elif currentLightIntensity <= 0.3 and currentLightIntensity >= 0.2 :
+            elif 0.2 > currentLightIntensity >= 0:
+                brightness = currentBrightness + 0.5 * difference
+            elif 0.3 >= currentLightIntensity >= 0.2:
                 brightness = currentBrightness
-            elif currentLightIntensity >0.3 and currentLightIntensity <0.5:
-                brightness = currentBrightness+0.5*difference
-            elif currentLightIntensity >=0.5 and currentLightIntensity <=1:
-                brightness = currentBrightness+0.7*difference
+            elif 0.3 < currentLightIntensity < 0.5:
+                brightness = currentBrightness + 1.2 * difference
+            elif 0.5 <= currentLightIntensity <= 1:
+                brightness = currentBrightness + 0.7 * difference
 
 
         elif mode == 'computer':
-            targetLI2 = 0.65
-            if currentLightIntensity < 0.6:
-                brightness = currentBrightness - 0.5 * (targetLI2 - currentLightIntensity)
-            elif currentLightIntensity >= 0.6 and currentLightIntensity <= 0.7:
+            targetLI2 = 0.45
+            difference = currentLightIntensity - targetLI2
+            print('difference =', difference)
+            if currentLightIntensity < 0:
+                print('There is no need for the light.')
+                brightness = 0
+            elif currentLightIntensity < 0.2 and currentLightIntensity >= 0:
+                brightness = currentBrightness + 0.3 * difference
+            elif currentLightIntensity < 0.4 and currentLightIntensity >= 0.2:
+                brightness = currentBrightness + 0.6 * difference
+            elif currentLightIntensity <= 0.5 and currentLightIntensity >= 0.4:
                 brightness = currentBrightness
-            elif currentLightIntensity > 0.7:
-                brightness = currentBrightness + 0.5 * (currentLightIntensity - targetLI2)
-
+            elif currentLightIntensity > 0.5 and currentLightIntensity < 0.6:
+                brightness = currentBrightness + 1.2 * difference
+            elif currentLightIntensity >= 0.6 and currentLightIntensity <= 1:
+                brightness = currentBrightness + 0.7 * difference
         elif mode == 'night':
             return 0.2
 
         if brightness > 1:
             print('Environment is too dark!')
             return 1
-        elif brightness>=0 and brightness<=1:
-            print('The targrtbrightness =',brightness)
+        elif brightness >= 0 and brightness <= 1:
+            print('The targrtbrightness =', brightness)
             return brightness
 
-        elif brightness <0:
+        elif brightness < 0:
             print('There is no need for the light.')
             return 0
 
     def start(self):
         while True:
+            if self.state == 'auto':
+                self.mode = self.modeDetector.detect_batch()
+                print("Current mode changes to ", self.mode)
+
             if self.mode == 'night':
                 if self.PIRSensor.get_value():
                     self.set_led(0.2)
                     time.sleep(10)
-            elif self.mode == 'manual':
+            elif self.mode == 'none':
                 pass
             elif self.mode == 'reading':
                 targetBrightness = self.targetBrightness(self.mode)

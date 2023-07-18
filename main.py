@@ -1,3 +1,4 @@
+from ModeDetector import ModeDetector
 from Sensors.LightSensor import LightSensor
 from Sensors.PIRSensor import PIRSensor
 from Sensors.TemperatureSensor import TemperatureSensor
@@ -11,7 +12,8 @@ video_sensor = VideoSensor("Video")
 temperature_sensor = TemperatureSensor()
 pir = PIRSensor()
 lightSensor = LightSensor()
-lightController = LightController(lightSensor, pir)
+modeDetector = ModeDetector()
+lightController = LightController(lightSensor, pir, modeDetector)
 
 app = Flask(__name__, template_folder='web')
 cors = CORS(app)
@@ -74,5 +76,5 @@ def camera_capture_photo():
 
 
 if __name__ == '__main__':
-    lightController.start()
+    # lightController.start()
     app.run(host='0.0.0.0', port=8080)

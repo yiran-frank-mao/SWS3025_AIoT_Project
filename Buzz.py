@@ -9,14 +9,14 @@ class Buzz:
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(trig, GPIO.OUT, initial=GPIO.HIGH)
 
-    def beep(self, seconds):
-        GPIO.output(self.trig, GPIO.LOW)
-        time.sleep(seconds)
-        GPIO.output(self.trig, GPIO.HIGH)
-
-    def beepBatch(self, seconds, timespan, counts):
-        for i in range(counts):
-            self.beep(seconds)
-            time.sleep(timespan)
-        GPIO.output(self.trig, GPIO.HIGH)
-        GPIO.cleanup()
+    # def beep(self, seconds):
+    #     GPIO.output(self.trig, GPIO.LOW)
+    #     time.sleep(seconds)
+    #     GPIO.output(self.trig, GPIO.HIGH)
+    #
+    # def beepBatch(self, seconds, timespan, counts):
+    #     for i in range(counts):
+    #         self.beep(seconds)
+    #         time.sleep(timespan)
+    #     GPIO.output(self.trig, GPIO.HIGH)
+    #     GPIO.cleanup()

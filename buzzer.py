@@ -2,7 +2,7 @@
 import RPi.GPIO as GPIO
 import time
 
-Buzzer = 25    # pin11
+Buzzer = 25    # pin25
 
 def setup(pin):
     global BuzzerPin

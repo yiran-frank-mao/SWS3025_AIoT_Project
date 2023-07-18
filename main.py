@@ -74,5 +74,5 @@ def camera_capture_photo():
 
 
 if __name__ == '__main__':
-    lightController.start()
+    # lightController.start()
     app.run(host='0.0.0.0', port=8080)

@@ -71,7 +71,7 @@ class LightController:
             targetLI2 = 0.65
             if currentLightIntensity < 0.6:
                 brightness = currentBrightness - 0.5 * (targetLI2 - currentLightIntensity)
-            elif currentLightIntensity >= 0.6 and currentLightIntensity <= 0.7:
+            elif 0.6 <= currentLightIntensity <= 0.7:
                 brightness = currentBrightness
             elif currentLightIntensity > 0.7:
                 brightness = currentBrightness + 0.5 * (currentLightIntensity - targetLI2)

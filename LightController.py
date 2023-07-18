@@ -112,28 +112,37 @@ class LightController:
 
     def capture_thread(self):
         self.imageSensor.capture("ml/images")
-        timer = threading.Timer(20, self.capture_thread)
-        timer.start()
+        timer_capture = threading.Timer(20, self.capture_thread)
+        timer_capture.start()
+
+    def detect_thread(self):
+        if self.state == 'auto':
+            self.mode = self.modeDetector.detect_batch()
+            print("Current mode changes to ", self.mode)
+        timer_detect = threading.Timer(30, self.detect_thread)
+        timer_detect.start()
+
+    def mode_thread(self):
+        if self.mode == 'night':
+            if self.PIRSensor.get_value():
+                self.set_led(0.2)
+                time.sleep(10)
+        elif self.mode == 'none':
+            pass
+        elif self.mode == 'reading':
+            targetBrightness = self.targetBrightness(self.mode)
+            self.adjustTo(targetBrightness)
+        elif self.mode == 'computer':
+            targetBrightness = self.targetBrightness(self.mode)
+            self.adjustTo(targetBrightness)
+        timer_mode = threading.Timer(30, self.detect_thread)
+        timer_mode.start()
 
     def start(self):
-        timer = threading.Timer(20, self.capture_thread)
-        timer.start()
+        timer_capture = threading.Timer(20, self.capture_thread)
+        timer_detect = threading.Timer(30, self.detect_thread)
+        timer_mode = threading.Timer(30, self.detect_thread)
 
-        while True:
-            if self.state == 'auto':
-                self.mode = self.modeDetector.detect_batch()
-                print("Current mode changes to ", self.mode)
-
-            if self.mode == 'night':
-                if self.PIRSensor.get_value():
-                    self.set_led(0.2)
-                    time.sleep(10)
-            elif self.mode == 'none':
-                pass
-            elif self.mode == 'reading':
-                targetBrightness = self.targetBrightness(self.mode)
-                self.adjustTo(targetBrightness)
-            elif self.mode == 'computer':
-                targetBrightness = self.targetBrightness(self.mode)
-                self.adjustTo(targetBrightness)
-            time.sleep(1)
+        timer_capture.start()
+        timer_detect.start()
+        timer_mode.start()

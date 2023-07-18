@@ -150,6 +150,7 @@ class Controller:
         if self.alarm.activated and \
                 self.alarm.alarmTime.hour == time_now.hour and \
                 self.alarm.alarmTime.minute == time_now.minute:
+            print(1)
             self.buzzer.beep(2)
             self.alarm.clear()
         timer_alarm = threading.Timer(60, self.alarm_thread)

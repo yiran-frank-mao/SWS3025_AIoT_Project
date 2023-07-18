@@ -2,13 +2,15 @@ import time
 from gpiozero import PWMLED
 from Sensors.LightSensor import LightSensor
 from Sensors.PIRSensor import PIRSensor
+from ModeDetector import ModeDetector
 import numpy as np
 
 
 class LightController:
-    def __init__(self, lightSensor: LightSensor = LightSensor("lightSensor"),
-                 pirSensor: PIRSensor = PIRSensor("PIRSensor"), adjustFunc=np.sin,
-                 invAdjustFunc=np.arcsin, adjustDuration=0.5, adjustTotalSteps=15, mode="night"):
+    def __init__(self, lightSensor: LightSensor, pirSensor: PIRSensor, modeDetector: ModeDetector,
+                 adjustFunc=np.sin, invAdjustFunc=np.arcsin, adjustDuration=0.5, adjustTotalSteps=15,
+                 mode="night",
+                 ):
         self.led = PWMLED(21)
         self.lightSensor = lightSensor
         self.PIRSensor = pirSensor
@@ -17,6 +19,8 @@ class LightController:
         self.adjustDuration = adjustDuration
         self.adjustTotalSteps = adjustTotalSteps
         self.mode = mode
+        self.state = 'auto'
+        self.modeDetector = modeDetector
 
     def led_off(self):
         self.led.off()
@@ -98,11 +102,15 @@ class LightController:
 
     def start(self):
         while True:
+            if self.state == 'auto':
+                self.mode = self.modeDetector.detect_batch()
+                print("Current mode changes to ", self.mode)
+
             if self.mode == 'night':
                 if self.PIRSensor.get_value():
                     self.set_led(0.2)
                     time.sleep(10)
-            elif self.mode == 'manual':
+            elif self.mode == 'none':
                 pass
             elif self.mode == 'reading':
                 targetBrightness = self.targetBrightness(self.mode)

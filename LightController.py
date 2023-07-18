@@ -84,7 +84,7 @@ class LightController:
             if currentLightIntensity <= 0:
                 print('There is no need for the light.')
                 brightness = 0
-            elif currentLightIntensity < 0.2 and currentLightIntensity > 0:
+            elif 0.2 > currentLightIntensity > 0:
                 brightness = currentBrightness + 0.3 * difference
             elif 0.35 > currentLightIntensity >=0.2:
                 brightness = currentBrightness + 0.6 * difference
@@ -100,7 +100,7 @@ class LightController:
         if brightness >= 1:
             print('Environment is too dark!')
             return 1
-        elif brightness > 0 and brightness < 1:
+        elif 0 < brightness < 1:
             print('The targrtbrightness =', brightness)
             return brightness
 

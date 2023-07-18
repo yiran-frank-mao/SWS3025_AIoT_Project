@@ -49,12 +49,9 @@ class ModeDetector:
     def clear(self):
         self.dataset = None
         max_minutes = 10
-        # 获取当前时间
         now = arrow.now()
-        # 遍历文件夹中的所有文件
         for item in Path(self.data_path).glob('*'):
-            if item.is_file():  # 如果是文件（不是子文件夹）
+            if item.is_file():
                 item_time = arrow.get(item.stat().st_mtime)
-                # 如果文件的修改时间小于当前时间减去最大时间
                 if item_time < now.shift(minutes=-max_minutes):
                     item.unlink()

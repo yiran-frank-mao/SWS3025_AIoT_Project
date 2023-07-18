@@ -18,6 +18,7 @@ lightController = LightController(lightSensor, pir, image_sensor, modeDetector)
 app = Flask(__name__, template_folder='web')
 cors = CORS(app)
 
+
 @app.route('/')
 def index():
     return render_template("index.html")

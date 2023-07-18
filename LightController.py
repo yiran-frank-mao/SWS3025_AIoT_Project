@@ -1,6 +1,5 @@
 import time
 from gpiozero import PWMLED
-
 from Sensors.CameraSensor import ImageSensor
 from Sensors.LightSensor import LightSensor
 from Sensors.PIRSensor import PIRSensor
@@ -13,7 +12,7 @@ class LightController:
     def __init__(self, lightSensor: LightSensor, pirSensor: PIRSensor, imageSensor: ImageSensor,
                  modeDetector: ModeDetector,
                  adjustFunc=np.sin, invAdjustFunc=np.arcsin, adjustDuration=0.5, adjustTotalSteps=15,
-                 mode="night",
+                 mode="reading",
                  ):
         self.led = PWMLED(21)
         self.lightSensor = lightSensor
@@ -121,7 +120,7 @@ class LightController:
         timer_detect = threading.Timer(30, self.detect_thread)
         timer_detect.start()
 
-    def mode_thread(self,mode):
+    def mode_thread(self):
         if self.mode == 'night':
             if self.PIRSensor.get_value():
                 self.set_led(0.2)

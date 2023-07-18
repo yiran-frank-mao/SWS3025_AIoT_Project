@@ -18,4 +18,12 @@ if __name__ == '__main__':
         print('i =',i)
         lightController.set_state(mode)
         time.sleep(2)
+
+    mode2 = 'computer'
+    j = 0
+    for j in range(15):
+        print('j =',j)
+        lightController.set_state(mode2)
+        time.sleep(2)
+
     lightController.led_off()

@@ -46,13 +46,15 @@ class LightController:
             self.adjustTo(targetBrightness)
                 #i = i + 1
         elif mode == 'computer':  # 电脑模式
-            self.led.value = 0.8  # 默认亮度
-            self.led.on()
-            targetBrightness = 0.02
-            i = 0
-            while (i < 100):
-                self.adjustTo(targetBrightness)
-                i = i + 1
+            #self.led.value = 0.8  # 默认亮度
+            #self.led.on()
+            targetBrightness = self.TargetBrightness(mode)
+            print('targetbright =', targetBrightness)
+            #targetBrightness = 0.02
+            #i = 0
+            #while (i < 100):
+            self.adjustTo(targetBrightness)
+                #i = i + 1
     def set_mode(self, mode):
         self.mode = mode
 

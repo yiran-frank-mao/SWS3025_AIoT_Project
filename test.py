@@ -30,4 +30,4 @@ if __name__ == '__main__':
     mode3 = 'night'
     k = 0
     for k in range(10):
-        lightController.mode_thresd(mode3)
+        lightController.mode_thread(mode3)

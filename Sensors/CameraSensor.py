@@ -3,17 +3,23 @@ from picamera import PiCamera
 from time import sleep
 from datetime import datetime
 
+
 class ImageSensor(Sensor):
     def __init__(self, name):
         super().__init__(name)
+        self.camera = PiCamera()
 
     def get_value(self) -> str:
         # Returns the file path of the image
-        camera = PiCamera()
         filePath = '/home/pi/images'
         fileName = datetime.now().strftime("%Y%m%d%H%M%S") + '.jpg'
-        camera.capture(filePath + '/' + fileName)
+        self.camera.capture(filePath + '/' + fileName)
         return filePath + '/' + fileName
+
+    def capture(self, filePath):
+        fileName = datetime.now().strftime("%Y%m%d%H%M%S") + '.jpg'
+        self.camera.capture(filePath + '/' + fileName)
+
 
 class VideoSensor(Sensor):
     def __init__(self, name, duration: int = 10):
@@ -39,4 +45,3 @@ def camera_sensor_test():
     camera.start_preview()
     while True:
         sleep(1)
-

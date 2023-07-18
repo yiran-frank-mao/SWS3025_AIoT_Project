@@ -1,26 +1,33 @@
 import time
 from gpiozero import PWMLED
+
+from Sensors.CameraSensor import ImageSensor
 from Sensors.LightSensor import LightSensor
 from Sensors.PIRSensor import PIRSensor
 from ModeDetector import ModeDetector
 import numpy as np
+import threading
 
 
 class LightController:
-    def __init__(self, lightSensor: LightSensor, pirSensor: PIRSensor, modeDetector: ModeDetector,
+    def __init__(self, lightSensor: LightSensor, pirSensor: PIRSensor, imageSensor: ImageSensor,
+                 modeDetector: ModeDetector,
                  adjustFunc=np.sin, invAdjustFunc=np.arcsin, adjustDuration=0.5, adjustTotalSteps=15,
                  mode="night",
                  ):
         self.led = PWMLED(21)
         self.lightSensor = lightSensor
         self.PIRSensor = pirSensor
+        self.imageSensor = imageSensor
+        self.modeDetector = modeDetector
+
         self.adjustFunc = adjustFunc
         self.invAdjustFunc = invAdjustFunc
         self.adjustDuration = adjustDuration
         self.adjustTotalSteps = adjustTotalSteps
+
         self.mode = mode
         self.state = 'auto'
-        self.modeDetector = modeDetector
 
     def led_off(self):
         self.led.off()
@@ -103,22 +110,39 @@ class LightController:
             print('There is no need for the light.')
             return 0
 
-    def start(self):
-        while True:
-            if self.state == 'auto':
-                self.mode = self.modeDetector.detect_batch()
-                print("Current mode changes to ", self.mode)
+    def capture_thread(self):
+        self.imageSensor.capture("ml/images")
+        timer_capture = threading.Timer(20, self.capture_thread)
+        timer_capture.start()
 
-            if self.mode == 'night':
-                if self.PIRSensor.get_value():
-                    self.set_led(0.2)
-                    time.sleep(10)
-            elif self.mode == 'none':
-                pass
-            elif self.mode == 'reading':
-                targetBrightness = self.targetBrightness(self.mode)
-                self.adjustTo(targetBrightness)
-            elif self.mode == 'computer':
-                targetBrightness = self.targetBrightness(self.mode)
-                self.adjustTo(targetBrightness)
-            time.sleep(1)
+    def detect_thread(self):
+        if self.state == 'auto':
+            self.mode = self.modeDetector.detect_batch()
+            print("Current mode changes to ", self.mode)
+        timer_detect = threading.Timer(30, self.detect_thread)
+        timer_detect.start()
+
+    def mode_thread(self):
+        if self.mode == 'night':
+            if self.PIRSensor.get_value():
+                self.set_led(0.2)
+                time.sleep(10)
+        elif self.mode == 'none':
+            pass
+        elif self.mode == 'reading':
+            targetBrightness = self.targetBrightness(self.mode)
+            self.adjustTo(targetBrightness)
+        elif self.mode == 'computer':
+            targetBrightness = self.targetBrightness(self.mode)
+            self.adjustTo(targetBrightness)
+        timer_mode = threading.Timer(30, self.mode_thread)
+        timer_mode.start()
+
+    def start(self):
+        timer_capture = threading.Timer(20, self.capture_thread)
+        timer_detect = threading.Timer(30, self.detect_thread)
+        timer_mode = threading.Timer(30, self.mode_thread)
+
+        timer_capture.start()
+        timer_detect.start()
+        timer_mode.start()

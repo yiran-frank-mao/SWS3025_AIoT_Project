@@ -13,7 +13,7 @@ temperature_sensor = TemperatureSensor()
 pir = PIRSensor()
 lightSensor = LightSensor()
 modeDetector = ModeDetector()
-lightController = LightController(lightSensor, pir, modeDetector)
+lightController = LightController(lightSensor, pir, image_sensor, modeDetector)
 
 app = Flask(__name__, template_folder='web')
 cors = CORS(app)
@@ -76,5 +76,5 @@ def camera_capture_photo():
 
 
 if __name__ == '__main__':
-    # lightController.start()
+    lightController.start()
     app.run(host='0.0.0.0', port=8080)

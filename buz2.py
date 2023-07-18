@@ -3,7 +3,7 @@
 import RPi.GPIO as GPIO
 import time
 
-trig = 27
+trig = 16
 
 
 def init():

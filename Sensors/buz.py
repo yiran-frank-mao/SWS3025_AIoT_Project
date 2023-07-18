@@ -18,3 +18,4 @@ class Buzz:
         for i in range(counts):
             self.beep(seconds)
             time.sleep(timespan)
+        GPIO.output(self.trig, GPIO.HIGH)

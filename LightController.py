@@ -4,7 +4,6 @@ from Sensors.CameraSensor import ImageSensor
 from Sensors.LightSensor import LightSensor
 from Sensors.PIRSensor import PIRSensor
 from ModeDetector import ModeDetector
-from Sensors.buz import buz
 import numpy as np
 import threading
 

@@ -11,7 +11,7 @@ import threading
 from datetime import time as dtime
 from datetime import datetime
 
-from buz import Buzz
+from Buzz import Buzz
 
 
 class Controller:

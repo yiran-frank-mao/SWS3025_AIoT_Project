@@ -1,26 +1,33 @@
 import time
 from gpiozero import PWMLED
+
+from Sensors.CameraSensor import ImageSensor
 from Sensors.LightSensor import LightSensor
 from Sensors.PIRSensor import PIRSensor
 from ModeDetector import ModeDetector
 import numpy as np
+import threading
 
 
 class LightController:
-    def __init__(self, lightSensor: LightSensor, pirSensor: PIRSensor, modeDetector: ModeDetector,
+    def __init__(self, lightSensor: LightSensor, pirSensor: PIRSensor, imageSensor: ImageSensor,
+                 modeDetector: ModeDetector,
                  adjustFunc=np.sin, invAdjustFunc=np.arcsin, adjustDuration=0.5, adjustTotalSteps=15,
                  mode="night",
                  ):
         self.led = PWMLED(21)
         self.lightSensor = lightSensor
         self.PIRSensor = pirSensor
+        self.imageSensor = imageSensor
+        self.modeDetector = modeDetector
+
         self.adjustFunc = adjustFunc
         self.invAdjustFunc = invAdjustFunc
         self.adjustDuration = adjustDuration
         self.adjustTotalSteps = adjustTotalSteps
+
         self.mode = mode
         self.state = 'auto'
-        self.modeDetector = modeDetector
 
     def led_off(self):
         self.led.off()
@@ -103,7 +110,15 @@ class LightController:
             print('There is no need for the light.')
             return 0
 
+    def capture_thread(self):
+        self.imageSensor.capture("ml/images")
+        timer = threading.Timer(20, self.capture_thread)
+        timer.start()
+
     def start(self):
+        timer = threading.Timer(20, self.capture_thread)
+        timer.start()
+
         while True:
             if self.state == 'auto':
                 self.mode = self.modeDetector.detect_batch()

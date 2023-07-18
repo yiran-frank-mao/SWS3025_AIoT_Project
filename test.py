@@ -14,11 +14,10 @@ if __name__ == '__main__':
     lightController = LightController()
     i = 0
 
-    for i in range(15):
-        print('i =',i)
-        lightController.set_state(mode)
-        time.sleep(2)
-
+    #for i in range(15):
+        #print('i =',i)
+        #lightController.set_state(mode)
+        #time.sleep(2)
     mode2 = 'computer'
     j = 0
     for j in range(15):

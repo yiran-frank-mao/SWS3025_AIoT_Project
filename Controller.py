@@ -1,24 +1,33 @@
 import time
 from gpiozero import PWMLED
+
+from Alarm import Alarm
 from Sensors.CameraSensor import ImageSensor
 from Sensors.LightSensor import LightSensor
 from Sensors.PIRSensor import PIRSensor
 from ModeDetector import ModeDetector
 import numpy as np
 import threading
+from datetime import time as dtime
+from datetime import datetime
+
+from buz import Buzz
 
 
-class LightController:
+class Controller:
     def __init__(self, lightSensor: LightSensor, pirSensor: PIRSensor, imageSensor: ImageSensor,
-                 modeDetector: ModeDetector,
+                 modeDetector: ModeDetector, alarm: Alarm, buzzer: Buzz,
                  adjustFunc=np.sin, invAdjustFunc=np.arcsin, adjustDuration=0.5, adjustTotalSteps=15,
                  mode="reading",
                  ):
-        self.led = PWMLED(21)
         self.lightSensor = lightSensor
         self.PIRSensor = pirSensor
         self.imageSensor = imageSensor
         self.modeDetector = modeDetector
+
+        self.alarm = alarm
+        self.led = PWMLED(21)
+        self.buzzer = buzzer
 
         self.adjustFunc = adjustFunc
         self.invAdjustFunc = invAdjustFunc
@@ -136,13 +145,22 @@ class LightController:
         timer_mode = threading.Timer(30, self.mode_thread)
         timer_mode.start()
 
-
+    def alarm_thread(self):
+        time_now = datetime.now()
+        if self.alarm.open and \
+                self.alarm.alarmTime.hour == time_now.hour and \
+                self.alarm.alarmTime.minute == time_now.minute:
+            self.buzzer.beep(2)
+        timer_alarm = threading.Timer(60, self.alarm_thread)
+        timer_alarm.start()
 
     def start(self):
         timer_capture = threading.Timer(20, self.capture_thread)
         timer_detect = threading.Timer(30, self.detect_thread)
         timer_mode = threading.Timer(30, self.mode_thread)
+        timer_alarm = threading.Timer(60, self.alarm_thread)
 
         timer_capture.start()
         timer_detect.start()
         timer_mode.start()
+        timer_alarm.start()

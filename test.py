@@ -1,6 +1,6 @@
 import requests
 import time
-from LightController import LightController
+from Controller import Controller
 from Sensors.CameraSensor import ImageSensor, VideoSensor
 from Sensors.LightSensor import LightSensor
 from Sensors.PIRSensor import PIRSensor
@@ -11,7 +11,7 @@ from MicrobitCommunication import MicCom
 
 if __name__ == '__main__':
     mode = 'reading'
-    lightController = LightController()
+    lightController = Controller()
     i = 0
 
     #for i in range(15):

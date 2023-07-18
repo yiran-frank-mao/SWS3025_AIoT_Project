@@ -1,6 +1,6 @@
 # 树莓派串口输出module----microbit显示
 # microbit按按钮----树莓派接受某一字符串----关灯/开灯
-from LightController import LightController
+from Controller import Controller
 import serial
 import time
 
@@ -8,7 +8,7 @@ import time
 class MicCom:
     def __init__(self):
         ser = serial.Serial(port='/dev/ttyACM0', baudrate=115200, timeout=1)
-        a = LightController()
+        a = Controller()
         while True:
             msg = ser.readline()
             smsg = msg.decode('utf-8').strip()

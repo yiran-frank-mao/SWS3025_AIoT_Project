@@ -5,7 +5,7 @@ from Sensors.PIRSensor import PIRSensor
 from Sensors.TemperatureSensor import TemperatureSensor
 from Sensors.CameraSensor import ImageSensor, VideoSensor
 from buz import Buzz
-from LightController import LightController
+from Controller import Controller
 from flask import Flask, request, render_template, send_from_directory
 from flask_cors import CORS, cross_origin
 
@@ -13,11 +13,11 @@ image_sensor = ImageSensor("Image")
 video_sensor = VideoSensor("Video")
 temperature_sensor = TemperatureSensor()
 pir = PIRSensor()
-# buzz = Buzz()
+buzz = Buzz()
 alarm = Alarm()
 lightSensor = LightSensor()
 modeDetector = ModeDetector()
-lightController = LightController(lightSensor, pir, image_sensor, modeDetector)
+controller = Controller(lightSensor, pir, image_sensor, modeDetector, alarm, buzz)
 
 app = Flask(__name__, template_folder='web')
 cors = CORS(app)
@@ -50,26 +50,26 @@ def get_humidity():
 
 @app.route('/api/light/on', methods=['POST'])
 def light_on():
-    lightController.led_on()
+    controller.led_on()
     return "Set LED on"
 
 
 @app.route('/api/light/off', methods=['POST'])
 def light_off():
-    lightController.led_off()
+    controller.led_off()
     return "Set LED off"
 
 
 @app.route('/api/light/set', methods=['POST'])
 def set_light():
     val = int(request.args.get('value'))
-    lightController.set_led(val / 100)
+    controller.set_led(val / 100)
     return "Set LED to " + str(val)
 
 
 @app.route('/api/light/get')
 def get_light():
-    return str(int(lightController.get_led() * 100))
+    return str(int(controller.get_led() * 100))
 
 
 @app.route('/api/alarm/get')
@@ -93,5 +93,5 @@ def camera_capture_photo():
 
 
 if __name__ == '__main__':
-    lightController.start()
+    controller.start()
     app.run(host='0.0.0.0', port=8080)

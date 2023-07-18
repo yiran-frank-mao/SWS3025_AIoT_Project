@@ -42,30 +42,6 @@ class LightController:
     def set_led(self, value):
         self.led.value = value
 
-    def set_state(self, mode):
-        if mode == 'manual':  # 手动模式
-            self.led.value = 0.8  # 默认亮度
-            self.led.on()
-        elif mode == 'reading':  # 阅读模式
-            #self.led.value = 0.8  # 默认亮度
-            #self.led.on()
-            targetBrightness = self.TargetBrightness(mode)
-            #targetBrightness = 0.25
-            print('targetbright =',targetBrightness)
-            #i = 0
-            #while (i < 100):
-            self.adjustTo(targetBrightness)
-                #i = i + 1
-        elif mode == 'computer':  # 电脑模式
-            #self.led.value = 0.8  # 默认亮度
-            #self.led.on()
-            targetBrightness = self.targetBrightness(mode)
-            print('targetbright =', targetBrightness)
-            #targetBrightness = 0.02
-            #i = 0
-            #while (i < 100):
-            self.adjustTo(targetBrightness)
-                #i = i + 1
     def set_mode(self, mode):
         self.mode = mode
 

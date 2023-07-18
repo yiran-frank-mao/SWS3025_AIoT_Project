@@ -4,7 +4,6 @@ from Sensors.CameraSensor import ImageSensor
 from Sensors.LightSensor import LightSensor
 from Sensors.PIRSensor import PIRSensor
 from ModeDetector import ModeDetector
-from Sensors.buz import buz
 import numpy as np
 import threading
 
@@ -87,13 +86,13 @@ class LightController:
                 brightness = 0
             elif 0.2 > currentLightIntensity > 0:
                 brightness = currentBrightness + 0.3 * difference
-            elif 0.35 > currentLightIntensity >=0.2:
+            elif 0.35 > currentLightIntensity >= 0.2:
                 brightness = currentBrightness + 0.6 * difference
-            elif 0.35 <= currentLightIntensity <= 0.45 :
+            elif 0.35 <= currentLightIntensity <= 0.45:
                 brightness = currentBrightness
-            elif 0.6 > currentLightIntensity > 0.45 :
+            elif 0.6 > currentLightIntensity > 0.45:
                 brightness = currentBrightness + 0.8 * difference
-            elif 1 >= currentLightIntensity >= 0.6 :
+            elif 1 >= currentLightIntensity >= 0.6:
                 brightness = currentBrightness + 0.5 * difference
         elif mode == 'night':
             brightness = 0.2
@@ -102,7 +101,6 @@ class LightController:
             print('Environment is too dark!')
             return 1
         elif 0 < brightness < 1:
-            print('The targrtbrightness =', brightness)
             return brightness
 
         elif brightness <= 0:

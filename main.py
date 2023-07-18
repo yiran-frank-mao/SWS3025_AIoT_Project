@@ -3,6 +3,7 @@ from Sensors.LightSensor import LightSensor
 from Sensors.PIRSensor import PIRSensor
 from Sensors.TemperatureSensor import TemperatureSensor
 from Sensors.CameraSensor import ImageSensor, VideoSensor
+from buz import Buzz
 from LightController import LightController
 from flask import Flask, request, render_template, send_from_directory
 from flask_cors import CORS, cross_origin
@@ -11,6 +12,7 @@ image_sensor = ImageSensor("Image")
 video_sensor = VideoSensor("Video")
 temperature_sensor = TemperatureSensor()
 pir = PIRSensor()
+# buzz = Buzz()
 lightSensor = LightSensor()
 modeDetector = ModeDetector()
 lightController = LightController(lightSensor, pir, image_sensor, modeDetector)

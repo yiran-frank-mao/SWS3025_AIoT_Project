@@ -4,17 +4,17 @@ from datetime import time
 class Alarm:
 
     def __init__(self):
-        self.open = False
+        self.activated = False
         self.alarmTime = time(0, 0, 0)
 
     def set_alarm(self, hour, minute, second):
-        self.open = True
+        self.activated = True
         self.alarmTime = time(hour, minute, second)
         print("Alarm set at " + str(self.alarmTime))
 
     def clear(self):
         self.alarmTime = time(0, 0, 0)
-        self.open = False
+        self.activated = False
 
 
 if __name__ == '__main__':

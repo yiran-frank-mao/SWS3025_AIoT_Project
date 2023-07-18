@@ -147,7 +147,7 @@ class Controller:
 
     def alarm_thread(self):
         time_now = datetime.now()
-        if self.alarm.open and \
+        if self.alarm.activated and \
                 self.alarm.alarmTime.hour == time_now.hour and \
                 self.alarm.alarmTime.minute == time_now.minute:
             self.buzzer.beep(2)

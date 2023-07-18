@@ -25,8 +25,6 @@ def beepBatch(seconds, timespan, counts):
         time.sleep(timespan)
 
 
-init()
-# beep(0.1)
-beepBatch(0.2, 0.5, 30)
-
-GPIO.cleanup()
+#init()
+#beepBatch(0.2, 0.5, 2)
+#GPIO.cleanup()

@@ -135,13 +135,13 @@ class LightController:
         elif self.mode == 'computer':
             targetBrightness = self.targetBrightness(self.mode)
             self.adjustTo(targetBrightness)
-        timer_mode = threading.Timer(30, self.detect_thread)
+        timer_mode = threading.Timer(30, self.mode_thread)
         timer_mode.start()
 
     def start(self):
         timer_capture = threading.Timer(20, self.capture_thread)
         timer_detect = threading.Timer(30, self.detect_thread)
-        timer_mode = threading.Timer(30, self.detect_thread)
+        timer_mode = threading.Timer(30, self.mode_thread)
 
         timer_capture.start()
         timer_detect.start()

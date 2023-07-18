@@ -91,14 +91,20 @@ class LightController:
 
 
         elif mode == 'computer':
-            targetLI2 = 0.65
-            if currentLightIntensity < 0.6:
-                brightness = currentBrightness - 0.5 * (targetLI2 - currentLightIntensity)
-            elif currentLightIntensity >= 0.6 and currentLightIntensity <= 0.7:
+            targetLI2 = 0.55
+            difference = currentLightIntensity - targetLI2
+            print('difference =', difference)
+            if currentLightIntensity < 0:
+                print('There is no need for the light.')
+                brightness = 0
+            elif currentLightIntensity < 0.5 and currentLightIntensity >= 0:
+                brightness = currentBrightness + 0.5 * difference
+            elif currentLightIntensity <= 0.6 and currentLightIntensity >= 0.5:
                 brightness = currentBrightness
-            elif currentLightIntensity > 0.7:
-                brightness = currentBrightness + 0.5 * (currentLightIntensity - targetLI2)
-
+            elif currentLightIntensity > 0.6 and currentLightIntensity < 0.8:
+                brightness = currentBrightness + 1.2 * difference
+            elif currentLightIntensity >= 0.8 and currentLightIntensity <= 1:
+                brightness = currentBrightness + 0.7 * difference
         elif mode == 'night':
             return 0.2
 

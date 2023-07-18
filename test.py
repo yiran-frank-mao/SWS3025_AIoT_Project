@@ -14,7 +14,8 @@ if __name__ == '__main__':
     lightController = LightController()
     i = 0
 
-    for i in range(10):
+    for i in range(15):
         print('i =',i)
         lightController.set_state(mode)
         time.sleep(2)
+    lightController.led_off()

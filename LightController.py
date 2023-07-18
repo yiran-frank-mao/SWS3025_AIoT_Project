@@ -81,11 +81,11 @@ class LightController:
                 print('There is no need for the light.')
                 brightness = 0
             elif currentLightIntensity < 0.2 and currentLightIntensity>=0:
-                brightness = currentBrightness+0.2*difference
+                brightness = currentBrightness+0.5*difference
             elif currentLightIntensity <= 0.3 and currentLightIntensity >= 0.2 :
                 brightness = currentBrightness
             elif currentLightIntensity >0.3 and currentLightIntensity <0.5:
-                brightness = currentBrightness+0.5*difference
+                brightness = currentBrightness+1.2*difference
             elif currentLightIntensity >=0.5 and currentLightIntensity <=1:
                 brightness = currentBrightness+0.7*difference
 

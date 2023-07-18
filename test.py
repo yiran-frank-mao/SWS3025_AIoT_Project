@@ -26,3 +26,8 @@ if __name__ == '__main__':
         time.sleep(2)
 
     lightController.led_off()
+
+    mode3 = 'night'
+    k = 0
+    for k in range(10):
+        lightController.mode_thresd(mode3)

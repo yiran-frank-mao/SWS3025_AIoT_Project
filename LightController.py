@@ -120,7 +120,7 @@ class LightController:
             elif 1 >= currentLightIntensity >= 0.6 :
                 brightness = currentBrightness + 0.5 * difference
         elif mode == 'night':
-            return 0.2
+            brightness = 0.2
 
         if brightness >= 1:
             print('Environment is too dark!')
@@ -145,11 +145,12 @@ class LightController:
         timer_detect = threading.Timer(30, self.detect_thread)
         timer_detect.start()
 
-    def mode_thread(self):
+    def mode_thread(self,mode):
         if self.mode == 'night':
             if self.PIRSensor.get_value():
                 self.set_led(0.2)
                 time.sleep(10)
+                self.led_off()
         elif self.mode == 'none':
             pass
         elif self.mode == 'reading':

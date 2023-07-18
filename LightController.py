@@ -49,7 +49,7 @@ class LightController:
         currentBrightness = self.get_led()
         if currentBrightness != targetBrightness:
             startX = self.invAdjustFunc(currentBrightness)
-            print('currentBrightness =', currentBrightness)
+            #print('currentBrightness =', currentBrightness)
             endX = self.invAdjustFunc(targetBrightness)
             step = (endX - startX) / self.adjustTotalSteps
             for i in range(self.adjustTotalSteps):
@@ -58,14 +58,14 @@ class LightController:
 
     def targetBrightness(self, mode: str) -> float:
         currentBrightness = self.get_led()
-        print('currentBrightness =', currentBrightness)
+        #print('currentBrightness =', currentBrightness)
         currentLightIntensity = self.lightSensor.get_value()
-        print('currentLight =', currentLightIntensity)
+        #print('currentLight =', currentLightIntensity)
         brightness = 0
         if mode == 'reading':
             targetLI1 = 0.2
             difference = currentLightIntensity - targetLI1
-            print('difference =', difference)
+            #print('difference =', difference)
             if currentLightIntensity < 0:
                 print('There is no need for the light.')
                 brightness = 0
@@ -81,7 +81,7 @@ class LightController:
         elif mode == 'computer':
             targetLI2 = 0.4
             difference = currentLightIntensity - targetLI2
-            print('difference =', difference)
+            #print('difference =', difference)
             if currentLightIntensity <= 0:
                 print('There is no need for the light.')
                 brightness = 0

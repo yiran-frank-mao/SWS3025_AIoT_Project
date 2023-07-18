@@ -19,3 +19,4 @@ class Buzz:
             self.beep(seconds)
             time.sleep(timespan)
         GPIO.output(self.trig, GPIO.HIGH)
+        GPIO.cleanup()

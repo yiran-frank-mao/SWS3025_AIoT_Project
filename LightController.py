@@ -72,22 +72,22 @@ class LightController:
         print('currentBrightness =', currentBrightness)
         currentLightIntensity = self.lightSensor.get_value()
         print('currentLight =', currentLightIntensity)
-        tgbrightness = 0
+        brightness = 0
         if mode == 'reading':
             targetLI1 = 0.25
             difference = currentLightIntensity - targetLI1
             print('difference =', difference)
             if currentLightIntensity < 0:
                 print('There is no need for the light.')
-                tgbrightness = 0
+                brightness = 0
             elif currentLightIntensity < 0.2 and currentLightIntensity>=0:
-                tgbrightness = currentBrightness+0.2*difference
+                brightness = currentBrightness+0.2*difference
             elif currentLightIntensity <= 0.3 and currentLightIntensity >= 0.2 :
-                tgbrightness = currentBrightness
+                brightness = currentBrightness
             elif currentLightIntensity >0.3 and currentLightIntensity <0.5:
-                tgbrightness = currentBrightness+0.5*difference
+                brightness = currentBrightness+0.5*difference
             elif currentLightIntensity >=0.5 and currentLightIntensity <=1:
-                tgbrightness = currentBrightness+0.7*difference
+                brightness = currentBrightness+0.7*difference
 
 
         elif mode == 'computer':
@@ -102,13 +102,14 @@ class LightController:
         elif mode == 'night':
             return 0.2
 
-        if tgbrightness > 1:
+        if brightness > 1:
             print('Environment is too dark!')
             return 1
-        elif tgbrightness>=0 and tgbrightness<=1:
-            return tgbrightness
+        elif brightness>=0 and brightness<=1:
+            print('The targrtbrightness =',brightness)
+            return brightness
 
-        elif tgbrightness <0:
+        elif brightness <0:
             print('There is no need for the light.')
             return 0
 

@@ -8,7 +8,8 @@ from Sensors.LightSensor import LightSensor
 from Sensors.PIRSensor import PIRSensor
 from Sensors.TemperatureSensor import TemperatureSensor
 from MicrobitCommunication import MicCom
+from buz import Buzz
 
 if __name__ == '__main__':
-    alarm = Alarm()
+    buzz = Buzz()
     time.sleep(10)

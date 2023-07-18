@@ -27,7 +27,7 @@ class ModeDetector:
         self.data_path = data_path
         self.dataset = None
 
-    def detect(self, img_path, numerical_output=False) -> Tensor | str | list[str]:
+    def detect(self, img_path, numerical_output=False):
         img = Image.open(img_path)
         input_img = self.transform(img).unsqueeze(0)
         pred_softmax = F.softmax(self.model(input_img), dim=1)

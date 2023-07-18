@@ -109,8 +109,8 @@ class LightController:
 
     def detect_thread(self):
         if self.state == 'auto':
-            self.mode = self.modeDetector.detect_batch()
-            print("Current mode changes to ", self.mode)
+            pred, self.mode = self.modeDetector.detect_batch(numerical_output=True)
+            print("Detection result: ", pred, "Current mode changes to ", self.mode)
         timer_detect = threading.Timer(30, self.detect_thread)
         timer_detect.start()
 

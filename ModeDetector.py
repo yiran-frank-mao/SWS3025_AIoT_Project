@@ -42,7 +42,7 @@ class ModeDetector:
             if item.is_file():
                 pred.append(self.detect(item, True).argmax())
         if numerical_output:
-            return pred
+            return pred, self.modeMap[np.bincount(pred).argmax()]
         else:
             return self.modeMap[np.bincount(pred).argmax()]
 

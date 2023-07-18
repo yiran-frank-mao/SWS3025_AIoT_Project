@@ -4,7 +4,7 @@ from Sensors.LightSensor import LightSensor
 from Sensors.PIRSensor import PIRSensor
 from Sensors.TemperatureSensor import TemperatureSensor
 from Sensors.CameraSensor import ImageSensor, VideoSensor
-from buz import Buzz
+from Buzz import Buzz
 from Controller import Controller
 from flask import Flask, request, render_template, send_from_directory
 from flask_cors import CORS, cross_origin
@@ -84,6 +84,7 @@ def set_alarm():
     minute = int(request.args.get('minute'))
     second = int(request.args.get('second'))
     alarm.set_alarm(hour, minute, second)
+    alarm.activate()
     return "Set alarm to " + str(hour) + ":" + str(minute) + ":" + str(second)
 
 

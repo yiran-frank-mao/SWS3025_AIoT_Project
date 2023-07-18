@@ -11,7 +11,7 @@ import threading
 from datetime import time as dtime
 from datetime import datetime
 
-from buz import Buzz
+from Buzz import Buzz
 
 
 class Controller:
@@ -147,10 +147,11 @@ class Controller:
 
     def alarm_thread(self):
         time_now = datetime.now()
-        if self.alarm.open and \
+        if self.alarm.activated and \
                 self.alarm.alarmTime.hour == time_now.hour and \
                 self.alarm.alarmTime.minute == time_now.minute:
             self.buzzer.beep(2)
+            self.alarm.clear()
         timer_alarm = threading.Timer(60, self.alarm_thread)
         timer_alarm.start()
 

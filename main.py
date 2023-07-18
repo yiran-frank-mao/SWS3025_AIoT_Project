@@ -8,8 +8,6 @@ from LightController import LightController
 from flask import Flask, request, render_template, send_from_directory
 from flask_cors import CORS, cross_origin
 
-
-
 image_sensor = ImageSensor("Image")
 video_sensor = VideoSensor("Video")
 temperature_sensor = TemperatureSensor()

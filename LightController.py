@@ -35,6 +35,30 @@ class LightController:
     def set_led(self, value):
         self.led.value = value
 
+    def set_state(self, mode):
+        if mode == 'manual':  # 手动模式
+            self.led.value = 0.8  # 默认亮度
+            self.led.on()
+        elif mode == 'reading':  # 阅读模式
+            #self.led.value = 0.8  # 默认亮度
+            #self.led.on()
+            targetBrightness = self.TargetBrightness(mode)
+            #targetBrightness = 0.25
+            print('targetbright =',targetBrightness)
+            #i = 0
+            #while (i < 100):
+            self.adjustTo(targetBrightness)
+                #i = i + 1
+        elif mode == 'computer':  # 电脑模式
+            #self.led.value = 0.8  # 默认亮度
+            #self.led.on()
+            targetBrightness = self.TargetBrightness(mode)
+            print('targetbright =', targetBrightness)
+            #targetBrightness = 0.02
+            #i = 0
+            #while (i < 100):
+            self.adjustTo(targetBrightness)
+                #i = i + 1
     def set_mode(self, mode):
         self.mode = mode
 
@@ -71,20 +95,23 @@ class LightController:
             elif 0.5 <= currentLightIntensity <= 1:
                 brightness = currentBrightness + 0.7 * difference
 
+
         elif mode == 'computer':
-            targetLI2 = 0.55
+            targetLI2 = 0.45
             difference = currentLightIntensity - targetLI2
             print('difference =', difference)
             if currentLightIntensity < 0:
                 print('There is no need for the light.')
                 brightness = 0
-            elif 0.5 > currentLightIntensity >= 0:
-                brightness = currentBrightness + 0.5 * difference
-            elif 0.6 >= currentLightIntensity >= 0.5:
+            elif currentLightIntensity < 0.2 and currentLightIntensity >= 0:
+                brightness = currentBrightness + 0.3 * difference
+            elif currentLightIntensity < 0.4 and currentLightIntensity >= 0.2:
+                brightness = currentBrightness + 0.6 * difference
+            elif currentLightIntensity <= 0.5 and currentLightIntensity >= 0.4:
                 brightness = currentBrightness
-            elif 0.6 < currentLightIntensity < 0.8:
+            elif currentLightIntensity > 0.5 and currentLightIntensity < 0.6:
                 brightness = currentBrightness + 1.2 * difference
-            elif 0.8 <= currentLightIntensity <= 1:
+            elif currentLightIntensity >= 0.6 and currentLightIntensity <= 1:
                 brightness = currentBrightness + 0.7 * difference
         elif mode == 'night':
             return 0.2

@@ -127,6 +127,7 @@ class Controller:
             self.modeDetector.detect_new()
             self.mode = self.modeDetector.get_detection()
             print("Current mode changes to ", self.mode)
+            self.modeDetector.clear()
         timer_detect = threading.Timer(30, self.detect_thread)
         timer_detect.start()
 

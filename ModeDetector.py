@@ -65,7 +65,8 @@ class ModeDetector:
     def clear(self):
         max_minutes = 10
         now = arrow.now()
-        for item in Path(self.data_path).glob('*'):
+        print("Clearing the image set...")
+        for item in tqdm(Path(self.data_path).glob('*')):
             if item.is_file() and arrow.get(item.stat().st_mtime)<now.shift(minutes=-max_minutes):
                 del self.imageSet[item.name]
                 item.unlink()

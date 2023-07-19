@@ -61,6 +61,8 @@ class ModeDetector:
                 self.imageSet[item.name] = self.detect(item, numerical_output=True)
 
     def get_detection(self):
+        if len(self.imageSet) == 0:
+            return "any"
         return self.modeMap[np.bincount(list(self.imageSet.values())).argmax()]
 
     def clear(self):

@@ -137,10 +137,12 @@ class Controller:
                     self.mode = "night"
                 else:
                     self.mode = "manual"
+            elif newMode == "any":
+                pass
             else:
                 self.mode = newMode
-            print("Current mode changes to ", self.mode)
-            self.modeDetector.clear()
+                print("Current mode changes to ", self.mode)
+                self.modeDetector.clear()
         timer_detect = threading.Timer(15, self.detect_thread)
         timer_detect.start()
 

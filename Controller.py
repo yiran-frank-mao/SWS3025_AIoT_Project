@@ -78,13 +78,13 @@ class Controller:
                 print('No need for light.')
                 brightness = 0
             elif 0.15 > currentLightIntensity >= 0:
-                brightness = currentBrightness + 0.5 * difference
+                brightness = 0.9
             elif 0.25 >= currentLightIntensity >= 0.15:
-                brightness = currentBrightness
+                brightness = 0.75
             elif 0.25 < currentLightIntensity < 0.3:
                 brightness = currentBrightness + 1.2 * difference
             elif 0.3 <= currentLightIntensity <= 0.4:
-                brightness = currentBrightness +  difference
+                brightness = currentBrightness + difference
             elif 0.4 < currentLightIntensity < 0.5:
                 brightness = currentBrightness + 0.8 * difference
             elif 0.5 <= currentLightIntensity <= 0.7:
@@ -106,7 +106,7 @@ class Controller:
             elif 0.32 <= currentLightIntensity <= 0.4:
                 brightness = currentBrightness
             elif 0.5 > currentLightIntensity > 0.4:
-                brightness = currentBrightness +  difference
+                brightness = currentBrightness + difference
             elif 0.6 > currentLightIntensity >= 0.5:
                 brightness = currentBrightness + 0.8 * difference
             elif 1 >= currentLightIntensity >= 0.6:
@@ -132,10 +132,17 @@ class Controller:
     def detect_thread(self):
         if self.state == 'auto':
             self.modeDetector.detect_new()
-            self.mode = self.modeDetector.get_detection()
+            newMode = self.modeDetector.get_detection()
+            if newMode == "none":
+                if self.lightSensor.get_value() > 0.8:
+                    self.mode = "night"
+                else:
+                    self.mode = "manual"
+            else:
+                self.mode = newMode
             print("Current mode changes to ", self.mode)
             self.modeDetector.clear()
-        timer_detect = threading.Timer(30, self.detect_thread)
+        timer_detect = threading.Timer(20, self.detect_thread)
         timer_detect.start()
 
     def mode_thread(self):

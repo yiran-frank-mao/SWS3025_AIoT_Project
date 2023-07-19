@@ -148,8 +148,8 @@ class Controller:
                 print("Time to have rest!")
                 self.timeRecord = datetime.now()
             targetBrightness = self.targetBrightness(self.mode)
-            print(self.mode, "mode: adjusting to", targetBrightness, "...")
-            self.adjustTo(targetBrightness)
+            print(self.mode, "mode: adjusting to", 0.8, "...")
+            self.adjustTo(0.8)
         timer_mode = threading.Timer(30, self.mode_thread)
         timer_mode.start()
 

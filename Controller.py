@@ -54,7 +54,10 @@ class Controller:
         self.led.value = value
 
     def set_mode(self, mode: str):
-        self.mode = mode
+        if mode == 'auto':
+            self.state = 'auto'
+        else:
+            self.mode = mode
 
     def adjustTo(self, targetBrightness):
         currentBrightness = self.get_led()
@@ -91,7 +94,7 @@ class Controller:
             #     brightness = currentBrightness + 0.5 * difference
             # elif 0.7 <= currentLightIntensity <= 1:
             #     brightness = currentBrightness + 0.3 * difference
-            brightness = min(0.9, 1-currentLightIntensity)
+            brightness = min(0.9, 1 - currentLightIntensity)
 
         elif mode == 'computer':
             # targetLI2 = 0.38
@@ -112,7 +115,7 @@ class Controller:
             #     brightness = currentBrightness + 0.8 * difference
             # elif 1 >= currentLightIntensity >= 0.6:
             #     brightness = currentBrightness + 0.35 * difference
-            brightness = min(0.65, 1-currentLightIntensity)
+            brightness = min(0.65, 1 - currentLightIntensity)
         if brightness >= 1:
             print('Environment is too dark!')
             return 1

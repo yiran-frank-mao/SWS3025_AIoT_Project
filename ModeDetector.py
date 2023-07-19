@@ -22,7 +22,7 @@ class ModeDetector:
                  transform=default_transform, skipInit=False):
         print("Initializing modeDetector...")
         if modeMap is None:
-            modeMap = ["computer", "none", "reading"]
+            modeMap = ["computer", "manual", "reading"]
         self.modeMap = modeMap
         self.model = torch.load(modelPath)
         self.transform = transform

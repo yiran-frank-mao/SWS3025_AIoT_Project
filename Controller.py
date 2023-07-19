@@ -17,7 +17,7 @@ from Buzz import Buzz
 
 class Controller:
     def __init__(self, lightSensor: LightSensor, pirSensor: PIRSensor, imageSensor: ImageSensor,
-                 modeDetector: ModeDetector, alarm: Alarm, buzzer: Buzz, microbit:MicCom,
+                 modeDetector: ModeDetector, alarm: Alarm, buzzer: Buzz, microbit: MicCom,
                  adjustFunc=np.sin, invAdjustFunc=np.arcsin, adjustDuration=0.5, adjustTotalSteps=15,
                  mode="none"
                  ):
@@ -37,8 +37,8 @@ class Controller:
         self.adjustTotalSteps = adjustTotalSteps
         self.timeRecord = datetime.now()
         self.sedentaryReminder = True
-        self.mode = mode
-        self.state = 'auto'
+        self.mode = mode  # 'reading', 'computer', 'manual', 'night'
+        self.state = 'auto'  # 'auto', 'manual', 'off'
 
     def led_off(self):
         self.led.off()
@@ -131,26 +131,30 @@ class Controller:
         timer_detect.start()
 
     def mode_thread(self):
-        if self.mode == 'night':
-            self.timeRecord = datetime.now()
-            self.adjustTo(0)
-            if self.PIRSensor.get_value():
-                self.set_led(0.2)
-                time.sleep(10)
-                self.led_off()
-        elif self.mode == 'none':
+        if self.state == 'off':
             self.led_off()
             self.timeRecord = datetime.now()
             pass
-        elif self.mode == 'reading' or self.mode == 'computer':
-            if self.sedentaryReminder and datetime.now()-self.timeRecord > timedelta(minutes=40):
-                self.buzzer.beep(2)
-                print("Time to have rest!")
+        else:
+            if self.mode == 'night':
                 self.timeRecord = datetime.now()
-            targetBrightness = self.targetBrightness(self.mode)
-            print(self.mode, "mode: adjusting to", 0.8, "...")
-            self.adjustTo(0.8)
-        timer_mode = threading.Timer(30, self.mode_thread)
+                self.led_off()
+                if self.PIRSensor.get_value():
+                    self.set_led(0.2)
+                    time.sleep(10)
+                    self.led_off()
+            elif self.mode == 'reading' or self.mode == 'computer':
+                if self.sedentaryReminder and datetime.now() - self.timeRecord > timedelta(minutes=40):
+                    self.buzzer.beep(2)
+                    print("Time to have rest!")
+                    self.timeRecord = datetime.now()
+                targetBrightness = self.targetBrightness(self.mode)
+                print(self.mode, "mode: adjusting to", 0.8, "...")
+                self.adjustTo(0.8)
+            elif self.mode == 'manual':
+                self.timeRecord = datetime.now()
+                pass
+        timer_mode = threading.Timer(0.5, self.mode_thread)
         timer_mode.start()
 
     def alarm_thread(self):
@@ -168,7 +172,7 @@ class Controller:
             if self.microbit.button_pressed():
                 self.mode = 'manual'
                 # self.adjustTo(1-np.ceil(self.get_led()))
-                self.set_led(1-np.ceil(self.get_led()))
+                self.set_led(1 - np.ceil(self.get_led()))
 
     def start(self):
         timer_capture = threading.Timer(25, self.capture_thread)

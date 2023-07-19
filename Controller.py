@@ -124,8 +124,9 @@ class Controller:
 
     def detect_thread(self):
         if self.state == 'auto':
-            pred, self.mode = self.modeDetector.detect_all(numerical_output=True)
-            print("Detection result: ", pred, "Current mode changes to ", self.mode)
+            self.modeDetector.detect_new()
+            self.mode = self.modeDetector.get_detection()
+            print("Current mode changes to ", self.mode)
         timer_detect = threading.Timer(30, self.detect_thread)
         timer_detect.start()
 

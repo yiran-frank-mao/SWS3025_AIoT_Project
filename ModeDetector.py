@@ -40,7 +40,7 @@ class ModeDetector:
         if vector_output:
             return pred_softmax
         elif numerical_output:
-            return pred_softmax.argmax()
+            return float(pred_softmax.argmax())
         else:
             return self.modeMap[pred_softmax.argmax()]
 
@@ -60,7 +60,6 @@ class ModeDetector:
                 self.imageSet[item.name] = self.detect(item, numerical_output=True)
 
     def get_detection(self):
-        print(self.imageSet.values())
         return self.modeMap[np.bincount(self.imageSet.values()).argmax()]
 
     def clear(self):

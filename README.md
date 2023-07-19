@@ -1,6 +1,8 @@
 # SWS3025_AIoT_Project
 AIoT project for SWS3025, NUS School of Computing Summer Workshop 2023
 
+![image](https://user-images.githubusercontent.com/43972902/126885722-4b0b8b9a-2b9a-4b9e-8b9a-2b9b9e8b9a2b.png)
+
 ## Description of Problem
 
 Optimizing lighting conditions is crucial for energy efficiency, with excessive lighting and the habit of leaving lights on causing unnecessary waste. 
@@ -15,3 +17,10 @@ Finally, an integrated system displaying indoor temperature and humidity levels 
 
 We propose a lamp-based home smart hub system to address the aforementioned issues. The proposed system incorporates various features to enhance user experience and optimize the indoor environment. It utilizes cameras to capture human activities, employs machine learning models to determine working modes, and records time to provide feedback on a webpage. Reminders are given for prolonged sitting or incorrect sitting posture, and lights are automatically turned off when a person leaving is captured by camera. 
 Facial recognition is used to achieve personalized lightness variation, and a light intensity sensor facilitates brightness adjustment within the desired range based on working modes. The system also utilizes a PIR sensor to automatically turn on lights in dark environments when human activity is detected. The frontend webpage offers a user-friendly dashboard with real-time updates on temperature and humidity conditions, along with environment-based suggestions. Additionally, the webpage allows manual lightness adjustment to cater to individual preferences.
+
+## Run web server
+On Raspberry Pi, run the following commands:
+```
+cd project
+authbind --deep python main.py
+```

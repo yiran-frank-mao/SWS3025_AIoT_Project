@@ -68,7 +68,8 @@ def light_on():
 @app.route('/api/light/off', methods=['POST'])
 def light_off():
     controller.led_off()
-    return "Set LED off"
+    controller.state = "off"
+    return "Set lamp off"
 
 
 @app.route('/api/light/set', methods=['POST'])
@@ -92,6 +93,7 @@ def get_mode():
 def set_mode():
     mode = request.args.get('mode')
     controller.set_mode(mode)
+    controller.state = "manual"
     return "Set mode to " + mode
 
 

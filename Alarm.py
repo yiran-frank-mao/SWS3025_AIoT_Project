@@ -2,7 +2,6 @@ from datetime import time
 
 
 class Alarm:
-
     def __init__(self):
         self.activated = False
         self.alarmTime = time(0, 0, 0)

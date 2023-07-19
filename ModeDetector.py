@@ -6,6 +6,7 @@ import torch.nn.functional as F
 from pathlib import Path
 import arrow
 from PIL import Image
+from tqdm import tqdm
 
 default_transform = transforms.Compose([transforms.Resize(256),
                                         transforms.CenterCrop(224),
@@ -18,25 +19,37 @@ default_transform = transforms.Compose([transforms.Resize(256),
 
 class ModeDetector:
     def __init__(self, modeMap=None, modelPath: str = "ml/model.pth", data_path: str = "ml/images",
-                 transform=default_transform):
+                 transform=default_transform, skipInit=False):
+        print("Initializing modeDetector...")
         if modeMap is None:
             modeMap = ["computer", "none", "reading"]
         self.modeMap = modeMap
         self.model = torch.load(modelPath)
         self.transform = transform
         self.data_path = data_path
-        self.dataset = None
+        self.imageSet = {}
+        if not skipInit:
+            print("Initializing the image set under ml/images...")
+            for item in tqdm(Path(self.data_path).glob('*')):
+                if item.is_file():
+                    self.imageSet[item.name] = self.detect(item, numerical_output=True)
 
-    def detect(self, img_path, numerical_output=False):
-        img = Image.open(img_path)
-        input_img = self.transform(img).unsqueeze(0)
-        pred_softmax = F.softmax(self.model(input_img), dim=1)
-        if numerical_output:
-            return pred_softmax
-        else:
-            return self.modeMap[pred_softmax.argmax()]
+    def detect(self, img_path, numerical_output=False, vector_output=False):
+        try:
+            img = Image.open(img_path)
+            input_img = self.transform(img).unsqueeze(0)
+            pred_softmax = F.softmax(self.model(input_img), dim=1)
+            if vector_output:
+                return pred_softmax
+            elif numerical_output:
+                return float(pred_softmax.argmax())
+            else:
+                return self.modeMap[pred_softmax.argmax()]
+        except Exception as e:
+            print(e)
+            return None
 
-    def detect_batch(self, numerical_output=False):
+    def detect_all(self, numerical_output=False):
         pred = []
         for item in Path(self.data_path).glob('*'):
             if item.is_file():
@@ -46,12 +59,27 @@ class ModeDetector:
         else:
             return self.modeMap[np.bincount(pred).argmax()]
 
+    def detect_new(self):
+        for item in Path(self.data_path).glob('*'):
+            if item.is_file() and item.name not in self.imageSet:
+                self.imageSet[item.name] = self.detect(item, numerical_output=True)
+
+    def get_detection(self):
+        if len(self.imageSet) == 0:
+            return "any"
+        return self.modeMap[np.bincount(list(self.imageSet.values())).argmax()]
+
     def clear(self):
-        self.dataset = None
-        max_minutes = 10
+        max_minutes = 1
         now = arrow.now()
+        print("Clearing the image set...")
+        for item in tqdm(Path(self.data_path).glob('*')):
+            if item.is_file() and arrow.get(item.stat().st_mtime) < now.shift(minutes=-max_minutes):
+                del self.imageSet[item.name]
+                item.unlink()
+
+    def reset(self):
+        self.imageSet = {}
         for item in Path(self.data_path).glob('*'):
             if item.is_file():
-                item_time = arrow.get(item.stat().st_mtime)
-                if item_time < now.shift(minutes=-max_minutes):
-                    item.unlink()
+                item.unlink()

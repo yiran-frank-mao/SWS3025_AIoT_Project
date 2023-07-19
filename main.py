@@ -1,4 +1,5 @@
 from Alarm import Alarm
+from MicrobitCommunication import MicCom
 from ModeDetector import ModeDetector
 from Sensors.LightSensor import LightSensor
 from Sensors.PIRSensor import PIRSensor
@@ -8,6 +9,7 @@ from Buzz import Buzz
 from Controller import Controller
 from flask import Flask, request, render_template, send_from_directory
 from flask_cors import CORS, cross_origin
+import numpy as np
 
 image_sensor = ImageSensor("Image")
 video_sensor = VideoSensor("Video")
@@ -15,9 +17,18 @@ temperature_sensor = TemperatureSensor()
 pir = PIRSensor()
 buzz = Buzz()
 alarm = Alarm()
+microbit = MicCom()
 lightSensor = LightSensor()
 modeDetector = ModeDetector()
-controller = Controller(lightSensor, pir, image_sensor, modeDetector, alarm, buzz)
+
+controller = Controller(
+    lightSensor=lightSensor,
+    pirSensor=pir,
+    imageSensor=image_sensor,
+    modeDetector=modeDetector,
+    alarm=alarm,
+    buzzer=buzz,
+    microbit=microbit)
 
 app = Flask(__name__, template_folder='web')
 cors = CORS(app)
@@ -57,13 +68,16 @@ def light_on():
 @app.route('/api/light/off', methods=['POST'])
 def light_off():
     controller.led_off()
-    return "Set LED off"
+    controller.state = "off"
+    return "Set lamp off"
 
 
 @app.route('/api/light/set', methods=['POST'])
 def set_light():
-    val = int(request.args.get('value'))
+    val = np.round(float(request.args.get('value')))
     controller.set_led(val / 100)
+    controller.state = "manual"
+    controller.set_mode(mode="manual")
     return "Set LED to " + str(val)
 
 
@@ -72,10 +86,29 @@ def get_light():
     return str(int(controller.get_led() * 100))
 
 
+@app.route('/api/light/get_mode')
+def get_mode():
+    return controller.mode
+
+
+@app.route('/api/light/set_mode', methods=['POST'])
+def set_mode():
+    mode = request.args.get('mode')
+    controller.set_mode(mode)
+    if mode == "auto":
+        controller.state = "auto"
+    else:
+        controller.state = "manual"
+    return "Set mode to " + mode
+
+
 @app.route('/api/alarm/get')
 def get_alarm():
-    return "{"+"hour: {}, minute: {}, second: {}".\
-        format(alarm.alarmTime.hour, alarm.alarmTime.minute, alarm.alarmTime.second)+"}"
+    if alarm.activated:
+        return "{" + "hour: {}, minute: {}, second: {}". \
+            format(alarm.alarmTime.hour, alarm.alarmTime.minute, alarm.alarmTime.second) + "}"
+    else:
+        return "Alarm is not activated"
 
 
 @app.route('/api/alarm/set', methods=['POST'])
@@ -86,6 +119,13 @@ def set_alarm():
     alarm.set_alarm(hour, minute, second)
     alarm.activate()
     return "Set alarm to " + str(hour) + ":" + str(minute) + ":" + str(second)
+
+
+@app.route('/api/', methods=['POST'])
+def sedentaryReminder():
+    val = request.args.get('sedentary_reminder')
+    controller.sedentaryReminder = val == "on"
+    print("Sedentary reminder is " + val)
 
 
 @app.route('/api/camera/capture_photo')

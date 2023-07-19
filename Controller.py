@@ -181,6 +181,7 @@ class Controller:
         if self.alarm.activated and \
                 self.alarm.alarmTime.hour == time_now.hour and \
                 self.alarm.alarmTime.minute == time_now.minute:
+            print("******** alarm: Time over ********")
             self.buzzer.beep(2)
             self.alarm.clear()
         timer_alarm = threading.Timer(60, self.alarm_thread)
@@ -189,6 +190,7 @@ class Controller:
     def microbit_thread(self):
         while True:
             if self.microbit.button_pressed():
+                print("******** microbit: Button pressed ********")
                 self.mode = 'manual'
                 if self.get_led() > 0:
                     self.led_off()
@@ -199,7 +201,7 @@ class Controller:
         timer_capture = threading.Timer(25, self.capture_thread)
         timer_detect = threading.Thread(target=self.detect_thread)
         timer_mode = threading.Thread(target=self.mode_thread)
-        timer_alarm = threading.Timer(60, self.alarm_thread)
+        timer_alarm = threading.Thread(target=self.alarm_thread)
         microbit_thread = threading.Thread(target=self.microbit_thread)
 
         timer_capture.start()

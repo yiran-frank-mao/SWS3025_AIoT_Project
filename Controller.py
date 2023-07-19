@@ -60,7 +60,6 @@ class Controller:
         currentBrightness = self.get_led()
         if currentBrightness != targetBrightness:
             startX = self.invAdjustFunc(currentBrightness)
-            # print('currentBrightness =', currentBrightness)
             endX = self.invAdjustFunc(targetBrightness)
             step = (endX - startX) / self.adjustTotalSteps
             for i in range(self.adjustTotalSteps):
@@ -166,7 +165,8 @@ class Controller:
         while True:
             if self.microbit.button_pressed():
                 self.mode = 'manual'
-                self.adjustTo(1-np.ceil(self.get_led()))
+                # self.adjustTo(1-np.ceil(self.get_led()))
+                self.set_led(1-np.ceil(self.get_led()))
 
     def start(self):
         timer_capture = threading.Timer(20, self.capture_thread)

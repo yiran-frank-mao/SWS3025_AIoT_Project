@@ -1,4 +1,5 @@
 from Alarm import Alarm
+from MicrobitCommunication import MicCom
 from ModeDetector import ModeDetector
 from Sensors.LightSensor import LightSensor
 from Sensors.PIRSensor import PIRSensor
@@ -16,9 +17,18 @@ temperature_sensor = TemperatureSensor()
 pir = PIRSensor()
 buzz = Buzz()
 alarm = Alarm()
+microbit = MicCom()
 lightSensor = LightSensor()
 modeDetector = ModeDetector()
-controller = Controller(lightSensor, pir, image_sensor, modeDetector, alarm, buzz)
+
+controller = Controller(
+    lightSensor=lightSensor,
+    pirSensor=pir,
+    imageSensor=image_sensor,
+    modeDetector=modeDetector,
+    alarm=alarm,
+    buzzer=buzz,
+    microbit=microbit)
 
 app = Flask(__name__, template_folder='web')
 cors = CORS(app)

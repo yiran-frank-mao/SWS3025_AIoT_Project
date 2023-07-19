@@ -64,11 +64,11 @@ class ModeDetector:
         return self.modeMap[np.bincount(list(self.imageSet.values())).argmax()]
 
     def clear(self):
-        max_minutes = 10
+        max_minutes = 1
         now = arrow.now()
         print("Clearing the image set...")
         for item in tqdm(Path(self.data_path).glob('*')):
-            if item.is_file() and arrow.get(item.stat().st_mtime)<now.shift(minutes=-max_minutes):
+            if item.is_file() and arrow.get(item.stat().st_mtime) < now.shift(minutes=-max_minutes):
                 del self.imageSet[item.name]
                 item.unlink()
 

@@ -141,7 +141,7 @@ class Controller:
                 self.mode = newMode
             print("Current mode changes to ", self.mode)
             self.modeDetector.clear()
-        timer_detect = threading.Timer(20, self.detect_thread)
+        timer_detect = threading.Timer(15, self.detect_thread)
         timer_detect.start()
 
     def mode_thread(self):
@@ -162,10 +162,7 @@ class Controller:
                     self.buzzer.beep(2)
                     print("Time to have rest!")
                     self.timeRecord = datetime.now()
-                if self.mode == 'reading':
-                    targetBrightness = 1
-                else:
-                    targetBrightness = 0.7
+                targetBrightness = self.targetBrightness(self.mode)
                 print(self.mode, "mode: adjusting to", targetBrightness, "...")
                 self.adjustTo(targetBrightness)
             elif self.mode == 'manual':

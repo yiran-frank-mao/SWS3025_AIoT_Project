@@ -143,7 +143,7 @@ class Controller:
                 self.mode = newMode
                 print("Current mode changes to ", self.mode)
                 self.modeDetector.clear()
-        timer_detect = threading.Timer(15, self.detect_thread)
+        timer_detect = threading.Timer(10, self.detect_thread)
         timer_detect.start()
 
     def mode_thread(self):

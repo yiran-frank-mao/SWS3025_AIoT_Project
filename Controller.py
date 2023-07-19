@@ -81,8 +81,10 @@ class Controller:
                 brightness = currentBrightness + 0.5 * difference
             elif 0.25 >= currentLightIntensity >= 0.15:
                 brightness = currentBrightness
-            elif 0.25 < currentLightIntensity < 0.4:
+            elif 0.25 < currentLightIntensity < 0.3:
                 brightness = currentBrightness + 1.2 * difference
+            elif 0.3 <= currentLightIntensity <= 0.4:
+                brightness = currentBrightness +  difference
             elif 0.4 < currentLightIntensity < 0.5:
                 brightness = currentBrightness + 0.8 * difference
             elif 0.5 <= currentLightIntensity <= 0.7:
@@ -105,7 +107,7 @@ class Controller:
                 brightness = currentBrightness
             elif 0.5 > currentLightIntensity > 0.4:
                 brightness = currentBrightness +  difference
-            elif 0.6 > currentLightIntensity > 0.5:
+            elif 0.6 > currentLightIntensity >= 0.5:
                 brightness = currentBrightness + 0.8 * difference
             elif 1 >= currentLightIntensity >= 0.6:
                 brightness = currentBrightness + 0.35 * difference

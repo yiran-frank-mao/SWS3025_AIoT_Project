@@ -35,6 +35,7 @@ if __name__ == '__main__':
 
     controller.led_off()
     for i in range(10):
+        print('i =',i)
         target = controller.targetBrightness('reading')
         current = controller.get_led()
         print('currentBrightness1',current)  #调整之前led光

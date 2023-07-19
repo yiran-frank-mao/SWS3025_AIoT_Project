@@ -123,7 +123,7 @@ class Controller:
 
     def detect_thread(self):
         if self.state == 'auto':
-            pred, self.mode = self.modeDetector.detect_batch(numerical_output=True)
+            pred, self.mode = self.modeDetector.detect_all(numerical_output=True)
             print("Detection result: ", pred, "Current mode changes to ", self.mode)
         timer_detect = threading.Timer(30, self.detect_thread)
         timer_detect.start()
@@ -144,6 +144,8 @@ class Controller:
             self.adjustTo(targetBrightness)
         timer_mode = threading.Timer(30, self.mode_thread)
         timer_mode.start()
+
+    # def sedentaryReminder_thread(self):
 
     def alarm_thread(self):
         time_now = datetime.now()

@@ -103,6 +103,10 @@ def set_alarm():
     alarm.activate()
     return "Set alarm to " + str(hour) + ":" + str(minute) + ":" + str(second)
 
+# @app.route('/api/sedentary_reminder', methods=['POST'])
+# def sedentaryReminder():
+#     val = bool(request.args.get('mode'))
+#     if val:
 
 @app.route('/api/camera/capture_photo')
 def camera_capture_photo():

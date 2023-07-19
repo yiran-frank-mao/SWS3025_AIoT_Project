@@ -35,15 +35,19 @@ class ModeDetector:
                     self.imageSet[item.name] = self.detect(item, numerical_output=True)
 
     def detect(self, img_path, numerical_output=False, vector_output=False):
-        img = Image.open(img_path)
-        input_img = self.transform(img).unsqueeze(0)
-        pred_softmax = F.softmax(self.model(input_img), dim=1)
-        if vector_output:
-            return pred_softmax
-        elif numerical_output:
-            return float(pred_softmax.argmax())
-        else:
-            return self.modeMap[pred_softmax.argmax()]
+        try:
+            img = Image.open(img_path)
+            input_img = self.transform(img).unsqueeze(0)
+            pred_softmax = F.softmax(self.model(input_img), dim=1)
+            if vector_output:
+                return pred_softmax
+            elif numerical_output:
+                return float(pred_softmax.argmax())
+            else:
+                return self.modeMap[pred_softmax.argmax()]
+        except Exception as e:
+            print(e)
+            return None
 
     def detect_all(self, numerical_output=False):
         pred = []

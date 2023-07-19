@@ -76,6 +76,8 @@ def light_off():
 def set_light():
     val = np.round(float(request.args.get('value')))
     controller.set_led(val / 100)
+    controller.state = "manual"
+    controller.set_mode(mode="manual")
     return "Set LED to " + str(val)
 
 

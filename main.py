@@ -72,10 +72,25 @@ def get_light():
     return str(int(controller.get_led() * 100))
 
 
+@app.route('/api/light/get_mode')
+def get_mode():
+    return controller.mode
+
+
+@app.route('/api/light/set_mode', methods=['POST'])
+def set_mode():
+    mode = request.args.get('mode')
+    controller.set_mode(mode)
+    return "Set mode to " + mode
+
+
 @app.route('/api/alarm/get')
 def get_alarm():
-    return "{"+"hour: {}, minute: {}, second: {}".\
-        format(alarm.alarmTime.hour, alarm.alarmTime.minute, alarm.alarmTime.second)+"}"
+    if alarm.activated:
+        return "{"+"hour: {}, minute: {}, second: {}".\
+            format(alarm.alarmTime.hour, alarm.alarmTime.minute, alarm.alarmTime.second)+"}"
+    else:
+        return "Alarm is not activated"
 
 
 @app.route('/api/alarm/set', methods=['POST'])

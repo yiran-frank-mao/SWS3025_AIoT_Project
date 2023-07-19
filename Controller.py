@@ -47,10 +47,10 @@ class Controller:
         # return the value of led in [0,1]
         return self.led.value
 
-    def set_led(self, value):
+    def set_led(self, value: float):
         self.led.value = value
 
-    def set_mode(self, mode):
+    def set_mode(self, mode: str):
         self.mode = mode
 
     def adjustTo(self, targetBrightness):

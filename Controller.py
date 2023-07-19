@@ -35,7 +35,7 @@ class Controller:
         self.invAdjustFunc = invAdjustFunc
         self.adjustDuration = adjustDuration
         self.adjustTotalSteps = adjustTotalSteps
-        self.timeRecord = None
+        self.timeRecord = datetime.now()
         self.sedentaryReminder = True
         self.mode = mode
         self.state = 'auto'
@@ -139,6 +139,7 @@ class Controller:
                 time.sleep(10)
                 self.led_off()
         elif self.mode == 'none':
+            self.led_off()
             self.timeRecord = datetime.now()
             pass
         elif self.mode == 'reading' or self.mode == 'computer':

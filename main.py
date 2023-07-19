@@ -121,11 +121,11 @@ def set_alarm():
     return "Set alarm to " + str(hour) + ":" + str(minute) + ":" + str(second)
 
 
-@app.route('/api/', methods=['POST'])
+@app.route('/api/sr', methods=['POST'])
 def sedentaryReminder():
     val = request.args.get('sedentary_reminder')
     controller.sedentaryReminder = val == "on"
-    print("Sedentary reminder is " + val)
+    print("******* Sedentary reminder is " + val+"*******")
 
 
 @app.route('/api/camera/capture_photo')

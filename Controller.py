@@ -19,7 +19,7 @@ class Controller:
     def __init__(self, lightSensor: LightSensor, pirSensor: PIRSensor, imageSensor: ImageSensor,
                  modeDetector: ModeDetector, alarm: Alarm, buzzer: Buzz, microbit:MicCom,
                  adjustFunc=np.sin, invAdjustFunc=np.arcsin, adjustDuration=0.5, adjustTotalSteps=15,
-                 mode="reading",
+                 mode="none",
                  ):
         self.lightSensor = lightSensor
         self.PIRSensor = pirSensor

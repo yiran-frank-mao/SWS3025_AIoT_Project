@@ -8,6 +8,7 @@ from Buzz import Buzz
 from Controller import Controller
 from flask import Flask, request, render_template, send_from_directory
 from flask_cors import CORS, cross_origin
+import numpy as np
 
 image_sensor = ImageSensor("Image")
 video_sensor = VideoSensor("Video")
@@ -62,7 +63,7 @@ def light_off():
 
 @app.route('/api/light/set', methods=['POST'])
 def set_light():
-    val = int(request.args.get('value'))
+    val = np.round(float(request.args.get('value')))
     controller.set_led(val / 100)
     return "Set LED to " + str(val)
 

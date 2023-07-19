@@ -34,15 +34,19 @@ if __name__ == '__main__':
         microbit=microbit)
 
     controller.led_off()
-    target = controller.targetBrightness('reading')
-    current = controller.get_led()
-    currentLightIntensity = lightSensor.get_value()
-    print('currentLightIntensity = ', currentLightIntensity)  #在调整之前的室内光强
-    print('targetBrightness =',target)   #目标光强
+    for i in range(10):
+        target = controller.targetBrightness('reading')
+        current = controller.get_led()
+        print('currentBrightness1',current)  #调整之前led光
 
-    controller.adjustTo(target)
-    print('currentBrightness =', current)  #调整后得到的光
+        currentLightIntensity = lightSensor.get_value()
+        print('currentLightIntensity1 = ', currentLightIntensity)  #在调整之前的室内光强
+        print('targetBrightness =',target)   #目标光强
 
-    currentLightIntensity = lightSensor.get_value()
-    print('currentLightIntensity = ',currentLightIntensity) #调整后的室内光强
+        controller.adjustTo(target)
+        current = controller.get_led()
+        print('currentBrightness2 =', current)  #调整后得到的led光
+
+        currentLightIntensity = lightSensor.get_value()
+        print('currentLightIntensity = ',currentLightIntensity) #调整后的室内光强
     input("Press Enter to continue...")

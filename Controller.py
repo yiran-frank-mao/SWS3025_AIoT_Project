@@ -54,10 +54,7 @@ class Controller:
         self.led.value = value
 
     def set_mode(self, mode: str):
-        if mode == 'auto':
-            self.state = 'auto'
-        else:
-            self.mode = mode
+        self.mode = mode
 
     def adjustTo(self, targetBrightness):
         currentBrightness = self.get_led()
@@ -159,9 +156,12 @@ class Controller:
                 self.timeRecord = datetime.now()
                 self.led_off()
                 if self.PIRSensor.get_value():
+                    print(self.mode, "mode: ***Someone is detected***")
                     self.set_led(0.2)
                     time.sleep(10)
                     self.led_off()
+                else:
+                    print(self.mode, "mode")
             elif self.mode == 'reading' or self.mode == 'computer':
                 if self.sedentaryReminder and datetime.now() - self.timeRecord > timedelta(minutes=40):
                     self.buzzer.beep(2)

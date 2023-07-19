@@ -95,7 +95,10 @@ def get_mode():
 def set_mode():
     mode = request.args.get('mode')
     controller.set_mode(mode)
-    controller.state = "manual"
+    if mode == "auto":
+        controller.state = "auto"
+    else:
+        controller.state = "manual"
     return "Set mode to " + mode
 
 

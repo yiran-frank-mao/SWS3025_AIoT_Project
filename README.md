@@ -1,7 +1,7 @@
 # SWS3025_AIoT_Project
 AIoT project for SWS3025, NUS School of Computing Summer Workshop 2023
 
-![image](https://user-images.githubusercontent.com/43972902/126885722-4b0b8b9a-2b9a-4b9e-8b9a-2b9b9e8b9a2b.png)
+![image](assets/poster.jpg)
 
 ## Description of Problem
 

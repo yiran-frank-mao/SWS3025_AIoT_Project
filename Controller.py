@@ -170,9 +170,9 @@ class Controller:
                 self.set_led(1-np.ceil(self.get_led()))
 
     def start(self):
-        timer_capture = threading.Timer(20, self.capture_thread)
+        timer_capture = threading.Timer(25, self.capture_thread)
         timer_detect = threading.Timer(30, self.detect_thread)
-        timer_mode = threading.Timer(30, self.mode_thread)
+        timer_mode = threading.Timer(2, self.mode_thread)
         timer_alarm = threading.Timer(60, self.alarm_thread)
         microbit_thread = threading.Thread(target=self.microbit_thread)
 

@@ -190,8 +190,10 @@ class Controller:
         while True:
             if self.microbit.button_pressed():
                 self.mode = 'manual'
-                # self.adjustTo(1-np.ceil(self.get_led()))
-                self.set_led(1 - np.ceil(self.get_led()))
+                if self.get_led() > 0:
+                    self.led_off()
+                else:
+                    self.led_on()
 
     def start(self):
         timer_capture = threading.Timer(25, self.capture_thread)

@@ -35,3 +35,4 @@ if __name__ == '__main__':
 
     controller.led_off()
     controller.adjustTo(0.8)
+    input("Press Enter to continue...")

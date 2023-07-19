@@ -19,7 +19,7 @@ default_transform = transforms.Compose([transforms.Resize(256),
 
 class ModeDetector:
     def __init__(self, modeMap=None, modelPath: str = "ml/model.pth", data_path: str = "ml/images",
-                 transform=default_transform):
+                 transform=default_transform, skipInit=False):
         print("Initializing modeDetector...")
         if modeMap is None:
             modeMap = ["computer", "none", "reading"]
@@ -28,10 +28,11 @@ class ModeDetector:
         self.transform = transform
         self.data_path = data_path
         self.imageSet = {}
-        print("Initializing the image set under ml/images...")
-        for item in tqdm(Path(self.data_path).glob('*')):
-            if item.is_file():
-                self.imageSet[item.name] = self.detect(item, numerical_output=True)
+        if not skipInit:
+            print("Initializing the image set under ml/images...")
+            for item in tqdm(Path(self.data_path).glob('*')):
+                if item.is_file():
+                    self.imageSet[item.name] = self.detect(item, numerical_output=True)
 
     def detect(self, img_path, numerical_output=False, vector_output=False):
         img = Image.open(img_path)

@@ -22,7 +22,7 @@ if __name__ == '__main__':
     alarm = Alarm()
     microbit = MicCom()
     lightSensor = LightSensor()
-    modeDetector = ModeDetector()
+    modeDetector = ModeDetector(skipInit=True)
 
     controller = Controller(
         lightSensor=lightSensor,

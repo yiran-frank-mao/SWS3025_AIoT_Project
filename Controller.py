@@ -9,7 +9,7 @@ from ModeDetector import ModeDetector
 import numpy as np
 import threading
 from datetime import time as dtime
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from Buzz import Buzz
 
@@ -33,7 +33,8 @@ class Controller:
         self.invAdjustFunc = invAdjustFunc
         self.adjustDuration = adjustDuration
         self.adjustTotalSteps = adjustTotalSteps
-        self.timerecord = time.time()
+        self.timeRecord = None
+        self.sedentaryReminder = True
         self.mode = mode
         self.state = 'auto'
 
@@ -66,16 +67,14 @@ class Controller:
 
     def targetBrightness(self, mode: str) -> float:
         currentBrightness = self.get_led()
-        # print('currentBrightness =', currentBrightness)
         currentLightIntensity = self.lightSensor.get_value()
-        # print('currentLight =', currentLightIntensity)
         brightness = 0
         if mode == 'reading':
             targetLI1 = 0.2
             difference = currentLightIntensity - targetLI1
             # print('difference =', difference)
             if currentLightIntensity < 0:
-                print('There is no need for the light.')
+                print('No need for light.')
                 brightness = 0
             elif 0.15 > currentLightIntensity >= 0:
                 brightness = currentBrightness + 0.5 * difference
@@ -91,7 +90,7 @@ class Controller:
             difference = currentLightIntensity - targetLI2
             # print('difference =', difference)
             if currentLightIntensity <= 0:
-                print('There is no need for the light.')
+                print('No need for light.')
                 brightness = 0
             elif 0.2 > currentLightIntensity > 0:
                 brightness = currentBrightness + 0.3 * difference
@@ -113,7 +112,7 @@ class Controller:
             return brightness
 
         elif brightness <= 0:
-            print('There is no need for the light.')
+            print('No need for light.')
             return 0
 
     def capture_thread(self):
@@ -130,22 +129,24 @@ class Controller:
 
     def mode_thread(self):
         if self.mode == 'night':
+            self.timeRecord = datetime.now()
+            self.adjustTo(0)
             if self.PIRSensor.get_value():
                 self.set_led(0.2)
                 time.sleep(10)
                 self.led_off()
         elif self.mode == 'none':
+            self.timeRecord = datetime.now()
             pass
-        elif self.mode == 'reading':
-            targetBrightness = self.targetBrightness(self.mode)
-            self.adjustTo(targetBrightness)
-        elif self.mode == 'computer':
+        elif self.mode == 'reading' or self.mode == 'computer':
+            if self.sedentaryReminder and datetime.now()-self.timeRecord > timedelta(minutes=40):
+                self.buzzer.beep(2)
+                print("Time to have rest!")
+                self.timeRecord = datetime.now()
             targetBrightness = self.targetBrightness(self.mode)
             self.adjustTo(targetBrightness)
         timer_mode = threading.Timer(30, self.mode_thread)
         timer_mode.start()
-
-    # def sedentaryReminder_thread(self):
 
     def alarm_thread(self):
         time_now = datetime.now()

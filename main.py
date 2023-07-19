@@ -88,8 +88,8 @@ def set_mode():
 @app.route('/api/alarm/get')
 def get_alarm():
     if alarm.activated:
-        return "{"+"hour: {}, minute: {}, second: {}".\
-            format(alarm.alarmTime.hour, alarm.alarmTime.minute, alarm.alarmTime.second)+"}"
+        return "{" + "hour: {}, minute: {}, second: {}". \
+            format(alarm.alarmTime.hour, alarm.alarmTime.minute, alarm.alarmTime.second) + "}"
     else:
         return "Alarm is not activated"
 
@@ -103,10 +103,13 @@ def set_alarm():
     alarm.activate()
     return "Set alarm to " + str(hour) + ":" + str(minute) + ":" + str(second)
 
-# @app.route('/api/sedentary_reminder', methods=['POST'])
-# def sedentaryReminder():
-#     val = bool(request.args.get('mode'))
-#     if val:
+
+@app.route('/api/', methods=['POST'])
+def sedentaryReminder():
+    val = request.args.get('sedentary_reminder')
+    controller.sedentaryReminder = val == "on"
+    print("Sedentary reminder is " + val)
+
 
 @app.route('/api/camera/capture_photo')
 def camera_capture_photo():

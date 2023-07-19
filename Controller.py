@@ -148,9 +148,12 @@ class Controller:
                     self.buzzer.beep(2)
                     print("Time to have rest!")
                     self.timeRecord = datetime.now()
-                targetBrightness = self.targetBrightness(self.mode)
-                print(self.mode, "mode: adjusting to", 0.8, "...")
-                self.adjustTo(0.8)
+                if self.mode == 'reading':
+                    targetBrightness = 1
+                else:
+                    targetBrightness = 0.7
+                print(self.mode, "mode: adjusting to", targetBrightness, "...")
+                self.adjustTo(targetBrightness)
             elif self.mode == 'manual':
                 self.timeRecord = datetime.now()
                 pass

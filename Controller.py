@@ -71,49 +71,48 @@ class Controller:
         currentLightIntensity = self.lightSensor.get_value()
         brightness = 0
         if mode == 'reading':
-            targetLI1 = 0.2
-            difference = currentLightIntensity - targetLI1
-            # print('difference =', difference)
-            if currentLightIntensity < 0:
-                print('No need for light.')
-                brightness = 0
-            elif 0.15 > currentLightIntensity >= 0:
-                brightness = 0.9
-            elif 0.25 >= currentLightIntensity >= 0.15:
-                brightness = 0.75
-            elif 0.25 < currentLightIntensity < 0.3:
-                brightness = currentBrightness + 1.2 * difference
-            elif 0.3 <= currentLightIntensity <= 0.4:
-                brightness = currentBrightness + difference
-            elif 0.4 < currentLightIntensity < 0.5:
-                brightness = currentBrightness + 0.8 * difference
-            elif 0.5 <= currentLightIntensity <= 0.7:
-                brightness = currentBrightness + 0.5 * difference
-            elif 0.7 <= currentLightIntensity <= 1:
-                brightness = currentBrightness + 0.3 * difference
+            # targetLI1 = 0.2
+            # difference = currentLightIntensity - targetLI1
+            # # print('difference =', difference)
+            # if currentLightIntensity < 0:
+            #     print('No need for light.')
+            #     brightness = 0
+            # elif 0.15 > currentLightIntensity >= 0:
+            #     brightness = 0.9
+            # elif 0.25 >= currentLightIntensity >= 0.15:
+            #     brightness = 0.75
+            # elif 0.25 < currentLightIntensity < 0.3:
+            #     brightness = currentBrightness + 1.2 * difference
+            # elif 0.3 <= currentLightIntensity <= 0.4:
+            #     brightness = currentBrightness + difference
+            # elif 0.4 < currentLightIntensity < 0.5:
+            #     brightness = currentBrightness + 0.8 * difference
+            # elif 0.5 <= currentLightIntensity <= 0.7:
+            #     brightness = currentBrightness + 0.5 * difference
+            # elif 0.7 <= currentLightIntensity <= 1:
+            #     brightness = currentBrightness + 0.3 * difference
+            brightness = min(0.9, 1-currentLightIntensity)
 
         elif mode == 'computer':
-            targetLI2 = 0.38
-            difference = currentLightIntensity - targetLI2
-            # print('difference =', difference)
-            if currentLightIntensity <= 0:
-                print('No need for light.')
-                brightness = 0
-            elif 0.2 > currentLightIntensity > 0:
-                brightness = currentBrightness + 0.3 * difference
-            elif 0.32 > currentLightIntensity >= 0.2:
-                brightness = currentBrightness + 0.6 * difference
-            elif 0.32 <= currentLightIntensity <= 0.4:
-                brightness = currentBrightness
-            elif 0.5 > currentLightIntensity > 0.4:
-                brightness = currentBrightness + difference
-            elif 0.6 > currentLightIntensity >= 0.5:
-                brightness = currentBrightness + 0.8 * difference
-            elif 1 >= currentLightIntensity >= 0.6:
-                brightness = currentBrightness + 0.35 * difference
-        elif mode == 'night':
-            brightness = 0.2
-
+            # targetLI2 = 0.38
+            # difference = currentLightIntensity - targetLI2
+            # # print('difference =', difference)
+            # if currentLightIntensity <= 0:
+            #     print('No need for light.')
+            #     brightness = 0
+            # elif 0.2 > currentLightIntensity > 0:
+            #     brightness = currentBrightness + 0.3 * difference
+            # elif 0.32 > currentLightIntensity >= 0.2:
+            #     brightness = currentBrightness + 0.6 * difference
+            # elif 0.32 <= currentLightIntensity <= 0.4:
+            #     brightness = currentBrightness
+            # elif 0.5 > currentLightIntensity > 0.4:
+            #     brightness = currentBrightness + difference
+            # elif 0.6 > currentLightIntensity >= 0.5:
+            #     brightness = currentBrightness + 0.8 * difference
+            # elif 1 >= currentLightIntensity >= 0.6:
+            #     brightness = currentBrightness + 0.35 * difference
+            brightness = min(0.65, 1-currentLightIntensity)
         if brightness >= 1:
             print('Environment is too dark!')
             return 1

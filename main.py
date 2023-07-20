@@ -148,8 +148,7 @@ def get_sedentaryTime():
 
 
 if __name__ == '__main__':
-    DataManager.initialize()
+    # DataManager.initialize()
     controller.start()
-    dataManageThread = threading.Thread(
-        target=DataManager.dataManage(tempSensor=temperature_sensor, controller=controller))
+    # dataManageThread = threading.Thread(target=DataManager.dataManage(tempSensor=temperature_sensor, controller=controller))
     app.run(host='0.0.0.0', port=80)

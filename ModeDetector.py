@@ -32,7 +32,8 @@ class ModeDetector:
             print("Initializing the image set under ml/images...")
             for item in tqdm(Path(self.data_path).glob('*')):
                 if item.is_file():
-                    self.imageSet[item.name] = self.detect(item, numerical_output=True)
+                    item.unlink()
+                    # self.imageSet[item.name] = self.detect(item, numerical_output=True)
 
     def detect(self, img_path, numerical_output=False, vector_output=False):
         try:

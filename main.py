@@ -142,5 +142,5 @@ def sedentaryReminder():
 if __name__ == '__main__':
     DataManager.initialize()
     controller.start()
-    dataManageThread = threading.Thread(target=DataManager.dataManage(tempSensor=temperature_sensor))
+    dataManageThread = threading.Thread(target=DataManager.dataManage(tempSensor=temperature_sensor, controller=controller))
     app.run(host='0.0.0.0', port=80)

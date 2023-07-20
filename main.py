@@ -88,7 +88,14 @@ def get_light():
 
 @app.route('/api/light/get_state')
 def get_state():
-    return str(controller.state)
+    return controller.state
+
+
+@app.route('/api/light/set_state', methods=['POST'])
+def set_mode():
+    state = request.args.get('state')
+    controller.state = state
+    return "Set mode to " + state
 
 
 @app.route('/api/light/get_mode')
@@ -100,10 +107,6 @@ def get_mode():
 def set_mode():
     mode = request.args.get('mode')
     controller.set_mode(mode)
-    if mode == "auto":
-        controller.state = "auto"
-    else:
-        controller.state = "manual"
     return "Set mode to " + mode
 
 

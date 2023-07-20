@@ -151,10 +151,8 @@ class Controller:
             print("off")
             self.led_off()
             self.timeRecord = datetime.now()
-        elif self.state == 'manual':
-            print("Manual state:", self.mode, "mode")
-            self.timeRecord = datetime.now()
         else:
+            print(self.state, "state:", self.mode, "mode")
             if self.mode == 'night':
                 self.timeRecord = datetime.now()
                 self.led_off()

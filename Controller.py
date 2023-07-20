@@ -152,7 +152,7 @@ class Controller:
             self.led_off()
             self.timeRecord = datetime.now()
         else:
-            print(self.state, "state:", self.mode, "mode")
+            print(self.state, "state:", self.mode, "mode", end=" ")
             if self.mode == 'night':
                 self.timeRecord = datetime.now()
                 self.led_off()
@@ -169,7 +169,7 @@ class Controller:
                     print("Time to have rest!")
                     self.timeRecord = datetime.now()
                 targetBrightness = self.targetBrightness(self.mode)
-                print(self.mode, "mode: adjusting to", targetBrightness, "...")
+                print("adjusting to", targetBrightness, "...")
                 self.adjustTo(targetBrightness)
             elif self.mode == 'manual':
                 print("Manual mode")

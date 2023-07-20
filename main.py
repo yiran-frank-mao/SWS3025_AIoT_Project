@@ -10,6 +10,8 @@ from Controller import Controller
 from flask import Flask, request, render_template, send_from_directory
 from flask_cors import CORS, cross_origin
 import numpy as np
+import sqlite3
+from sqlite3 import Error
 
 image_sensor = ImageSensor("Image")
 video_sensor = VideoSensor("Video")
@@ -137,6 +139,19 @@ def sedentaryReminder():
     return "Set sedentary reminder to " + val
 
 
+def create_connection(db_file):
+    """ create a database connection to a SQLite database """
+    conn = None
+    try:
+        conn = sqlite3.connect(db_file)
+        print(sqlite3.version)
+    except Error as e:
+        print(e)
+    finally:
+        if conn:
+            conn.close()
+
 if __name__ == '__main__':
     controller.start()
+    create_connection("database.db")
     app.run(host='0.0.0.0', port=80)

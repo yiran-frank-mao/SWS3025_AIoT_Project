@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import DataManager
 from Alarm import Alarm
 from MicrobitCommunication import MicCom
@@ -139,8 +141,15 @@ def sedentaryReminder():
     return "Set sedentary reminder to " + val
 
 
+@app.route('/api/sr/get_sedentaryTime')
+def get_sedentaryTime():
+    diff = datetime.now() - controller.timeRecord
+    return str(diff.hour) + ":" + str(diff.minute)
+
+
 if __name__ == '__main__':
     DataManager.initialize()
     controller.start()
-    dataManageThread = threading.Thread(target=DataManager.dataManage(tempSensor=temperature_sensor, controller=controller))
+    dataManageThread = threading.Thread(
+        target=DataManager.dataManage(tempSensor=temperature_sensor, controller=controller))
     app.run(host='0.0.0.0', port=80)

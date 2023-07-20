@@ -148,9 +148,12 @@ class Controller:
 
     def mode_thread(self):
         if self.state == 'off':
+            print("Manual mode")
             self.led_off()
             self.timeRecord = datetime.now()
-            pass
+        elif self.state == 'manual':
+            print("Manual state")
+            self.timeRecord = datetime.now()
         else:
             if self.mode == 'night':
                 self.timeRecord = datetime.now()
@@ -171,8 +174,8 @@ class Controller:
                 print(self.mode, "mode: adjusting to", targetBrightness, "...")
                 self.adjustTo(targetBrightness)
             elif self.mode == 'manual':
+                print("Manual mode")
                 self.timeRecord = datetime.now()
-                pass
         timer_mode = threading.Timer(0.5, self.mode_thread)
         timer_mode.start()
 

@@ -126,13 +126,9 @@ def sedentaryReminder():
     val = request.args.get('sr')
     controller.sedentaryReminder = val == "on"
     print("******* Sedentary reminder is " + val+"*******")
-
-
-@app.route('/api/camera/capture_photo')
-def camera_capture_photo():
-    return image_sensor.get_value()
+    return "Set sedentary reminder to " + val
 
 
 if __name__ == '__main__':
     controller.start()
-    app.run(host='0.0.0.0', port=8080)
+    app.run(host='0.0.0.0', port=80)

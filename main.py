@@ -132,6 +132,10 @@ def set_alarm():
     alarm.activate()
     return "Set alarm to " + str(hour) + ":" + str(minute) + ":" + str(second)
 
+@app.route('/api/sr/get')
+def get_sedentaryTime():
+    diff = datetime.now() - controller.timeRecord
+    return str(diff.hour) + ":" + str(diff.minute)
 
 @app.route('/api/sr/set', methods=['POST'])
 def sedentaryReminder():
@@ -139,12 +143,6 @@ def sedentaryReminder():
     controller.sedentaryReminder = val == "on"
     print("******* Sedentary reminder is " + val + "*******")
     return "Set sedentary reminder to " + val
-
-
-@app.route('/api/sr/get')
-def get_sedentaryTime():
-    diff = datetime.now() - controller.timeRecord
-    return str(diff.hour) + ":" + str(diff.minute)
 
 
 if __name__ == '__main__':

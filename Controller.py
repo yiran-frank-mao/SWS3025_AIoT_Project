@@ -164,7 +164,7 @@ class Controller:
                 else:
                     print(self.mode, "mode")
             elif self.mode == 'reading' or self.mode == 'computer':
-                if self.sedentaryReminder and datetime.now() - self.timeRecord > timedelta(minutes=40):
+                if self.sedentaryReminder and datetime.now() - self.timeRecord > timedelta(minutes=5):
                     self.buzzer.beep(2)
                     print("Time to have rest!")
                     self.timeRecord = datetime.now()

@@ -34,6 +34,6 @@ if __name__ == '__main__':
         microbit=microbit)
 
     controller.led_off()
-    target = controller.targetBrightness('rading')
+    target = controller.targetBrightness('reading')
     controller.adjustTo(target)
     input("Press Enter to continue...")

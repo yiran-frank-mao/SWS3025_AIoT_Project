@@ -112,7 +112,7 @@ class Controller:
             #     brightness = currentBrightness + 0.8 * difference
             # elif 1 >= currentLightIntensity >= 0.6:
             #     brightness = currentBrightness + 0.35 * difference
-            brightness = min(0.45, 0.3 - 0.5 * currentLightIntensity)
+            brightness = min(0.45, 0.3 + 0.5 * currentLightIntensity)
         if brightness >= 1:
             print('Environment is too dark!')
             return 1

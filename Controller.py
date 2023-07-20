@@ -19,7 +19,7 @@ class Controller:
     def __init__(self, lightSensor: LightSensor, pirSensor: PIRSensor, imageSensor: ImageSensor,
                  modeDetector: ModeDetector, alarm: Alarm, buzzer: Buzz, microbit: MicCom,
                  adjustFunc=np.sin, invAdjustFunc=np.arcsin, adjustDuration=0.5, adjustTotalSteps=15,
-                 mode="none"
+                 mode="reading"
                  ):
         self.lightSensor = lightSensor
         self.PIRSensor = pirSensor
@@ -125,7 +125,7 @@ class Controller:
 
     def capture_thread(self):
         self.imageSensor.capture("ml/images")
-        timer_capture = threading.Timer(20, self.capture_thread)
+        timer_capture = threading.Timer(10, self.capture_thread)
         timer_capture.start()
 
     def detect_thread(self):
@@ -143,7 +143,7 @@ class Controller:
                 self.mode = newMode
                 print("Current mode changes to ", self.mode)
                 self.modeDetector.clear()
-        timer_detect = threading.Timer(10, self.detect_thread)
+        timer_detect = threading.Timer(12, self.detect_thread)
         timer_detect.start()
 
     def mode_thread(self):
@@ -174,6 +174,8 @@ class Controller:
             elif self.mode == 'manual':
                 print("Manual mode")
                 self.timeRecord = datetime.now()
+            else:
+                print()
         timer_mode = threading.Timer(0.5, self.mode_thread)
         timer_mode.start()
 
@@ -199,7 +201,7 @@ class Controller:
                     self.led_on()
 
     def start(self):
-        timer_capture = threading.Timer(25, self.capture_thread)
+        timer_capture = threading.Thread(target=self.capture_thread)
         timer_detect = threading.Thread(target=self.detect_thread)
         timer_mode = threading.Thread(target=self.mode_thread)
         timer_alarm = threading.Thread(target=self.alarm_thread)

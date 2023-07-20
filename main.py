@@ -138,7 +138,7 @@ def get_sedentaryTime():
     diff = datetime.now() - controller.timeRecord
     hours = diff.seconds // 3600
     minutes = (diff.seconds % 3600) // 60
-    return str(hours) + ":" + str(minutes)
+    return str(diff)
 
 
 @app.route('/api/sr/set', methods=['POST'])

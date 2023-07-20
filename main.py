@@ -141,7 +141,7 @@ def sedentaryReminder():
     return "Set sedentary reminder to " + val
 
 
-@app.route('/api/sr/get_sedentaryTime')
+@app.route('/api/sr/get')
 def get_sedentaryTime():
     diff = datetime.now() - controller.timeRecord
     return str(diff.hour) + ":" + str(diff.minute)

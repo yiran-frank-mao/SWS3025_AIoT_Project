@@ -86,6 +86,11 @@ def get_light():
     return str(int(controller.get_led() * 100))
 
 
+@app.route('/api/light/get_state')
+def get_state():
+    return str(controller.state)
+
+
 @app.route('/api/light/get_mode')
 def get_mode():
     return controller.mode
@@ -125,7 +130,7 @@ def set_alarm():
 def sedentaryReminder():
     val = request.args.get('sr')
     controller.sedentaryReminder = val == "on"
-    print("******* Sedentary reminder is " + val+"*******")
+    print("******* Sedentary reminder is " + val + "*******")
     return "Set sedentary reminder to " + val
 
 

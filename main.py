@@ -92,7 +92,7 @@ def get_state():
 
 
 @app.route('/api/light/set_state', methods=['POST'])
-def set_mode():
+def set_state():
     state = request.args.get('state')
     controller.state = state
     return "Set mode to " + state

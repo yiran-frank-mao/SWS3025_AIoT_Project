@@ -148,11 +148,11 @@ class Controller:
 
     def mode_thread(self):
         if self.state == 'off':
-            print("Manual mode")
+            print("off")
             self.led_off()
             self.timeRecord = datetime.now()
         elif self.state == 'manual':
-            print("Manual state")
+            print("Manual state:", self.mode, "mode")
             self.timeRecord = datetime.now()
         else:
             if self.mode == 'night':

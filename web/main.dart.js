@@ -28737,7 +28737,7 @@ return A.Q($async$az_,r)},
 azE(){var s=0,r=A.R(t.N),q,p
 var $async$azE=A.S(function(a,b){if(a===1)return A.O(b,r)
 while(true)switch(s){case 0:s=3
-return A.U(A.yd(A.cZ("http://raspberrypi4.local:80/api/sr/get_sedentaryTime")),$async$azE)
+return A.U(A.yd(A.cZ("http://raspberrypi4.local:80/api/sr/get")),$async$azE)
 case 3:p=b
 q=A.nb(A.n4(p.e).c.a.h(0,"charset")).d3(0,p.w)
 s=1
